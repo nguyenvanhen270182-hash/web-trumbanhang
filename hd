@@ -1,0 +1,10 @@
+git add .
+git commit -m "Khoi tao code web"
+git merge origin/main --allow-unrelated-histories -X ours -m "Gop nhanh"
+git push -u origin main
+
+sau khi chay xong chay 3 nay
+
+git add .
+git commit -m "noi dung sua"
+git push

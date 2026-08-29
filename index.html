@@ -102,30 +102,36 @@
             <span>TRÙM BÁN HÀNG</span>
         </a>
         
-        <!-- Menu trên Máy tính (PC / Laptop) -->
-        <div class="hidden md:flex items-center gap-7 text-sm font-bold text-slate-700">
+        <!-- Menu trên Máy tính -->
+        <div class="hidden md:flex items-center gap-6 text-sm font-bold text-slate-700">
             <a href="#features" class="hover:text-blue-600 transition">Tính Năng</a>
             <a href="#demo" class="hover:text-blue-600 transition">Mô Phỏng POS</a>
             <a href="#videos" class="hover:text-blue-600 transition">Hình Ảnh Thao Tác</a>
             <a href="#pricing" class="hover:text-blue-600 transition">Bảng Giá</a>
         </div>
         
-        <!-- Nhóm nút bên phải -->
+        <!-- Nhóm nút hành động bên phải (Hiện cả PC và Điện thoại) -->
         <div class="flex items-center gap-2">
-            <!-- Nút Tải APK luôn hiện cả Mobile lẫn PC -->
+            <!-- Nút Liên Hệ Zalo (Hiện trên cả điện thoại lẫn PC) -->
+            <a href="#contact" class="inline-flex items-center gap-1.5 border border-blue-200 bg-blue-50/60 hover:bg-blue-100 hover:border-blue-400 text-blue-700 font-bold text-xs sm:text-sm px-3 py-2 rounded-xl transition">
+                <i class="fa-solid fa-headset text-blue-600"></i>
+                <span>Liên Hệ</span>
+            </a>
+
+            <!-- Nút Tải APK -->
             <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5">
                 <i class="fa-brands fa-android text-sm sm:text-base"></i>
                 <span>Tải APK</span>
             </a>
 
-            <!-- Nút 3 gạch Menu dành riêng cho Điện thoại -->
+            <!-- Nút 3 gạch Menu Mobile -->
             <button onclick="toggleMobileNav()" class="md:hidden p-2 text-slate-700 hover:text-blue-600 focus:outline-none rounded-lg border border-slate-200">
-                <i id="navMenuIcon" class="fa-solid fa-bars text-lg"></i>
+                <i id="navMenuIcon" class="fa-solid fa-bars text-base"></i>
             </button>
         </div>
     </div>
 
-    <!-- Menu xổ xuống trên Điện thoại (Mặc định ẩn) -->
+    <!-- Menu xổ xuống trên Điện thoại -->
     <div id="mobileDropdown" class="hidden md:hidden bg-white border-t border-slate-100 px-5 py-4 space-y-3 shadow-lg">
         <a href="#features" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
             <i class="fa-solid fa-star text-blue-500 w-5"></i> Tính Năng
@@ -139,29 +145,13 @@
         <a href="#pricing" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
             <i class="fa-solid fa-tags text-blue-500 w-5"></i> Bảng Giá 399k
         </a>
-        <a href="#contact" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
-            <i class="fa-solid fa-headset text-blue-500 w-5"></i> Liên Hệ Hỗ Trợ
+        <a href="#contact" onclick="toggleMobileNav()" class="block text-blue-600 font-bold text-sm py-1">
+            <i class="fa-solid fa-headset text-blue-600 w-5"></i> Hỗ Trợ & Mua Key
         </a>
     </div>
 </nav>
 
-<!-- Đoạn Script điều khiển đóng/mở menu trên Mobile -->
-<script>
-    function toggleMobileNav() {
-        const menu = document.getElementById('mobileDropdown');
-        const icon = document.getElementById('navMenuIcon');
-        
-        if (menu.classList.contains('hidden')) {
-            menu.classList.remove('hidden');
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-xmark');
-        } else {
-            menu.classList.add('hidden');
-            icon.classList.remove('fa-xmark');
-            icon.classList.add('fa-bars');
-        }
-    }
-</script>
+
 
 <!-- Hero Section -->
 <header class="hero-bg text-white py-16 sm:py-24 px-4 sm:px-6 text-center shadow-lg relative overflow-hidden">
@@ -871,6 +861,23 @@
 
         // Cập nhật link ảnh VietQR mới tương ứng với số tiền chính xác
         qrImg.src = `https://img.vietqr.io/image/${BANK_CONFIG.bankId}-${BANK_CONFIG.accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(memo)}&accountName=${encodeURIComponent(BANK_CONFIG.accountName)}`;
+   
+   
+   }
+
+       function toggleMobileNav() {
+        const menu = document.getElementById('mobileDropdown');
+        const icon = document.getElementById('navMenuIcon');
+        
+        if (menu.classList.contains('hidden')) {
+            menu.classList.remove('hidden');
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+        } else {
+            menu.classList.add('hidden');
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+        }
     }
 </script>
 

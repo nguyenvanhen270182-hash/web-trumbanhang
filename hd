@@ -6,5 +6,5 @@ git push -u origin main
 sau khi chay xong chay 3 nay
 
 git add .
-git commit -m "noi dung sua tieu đề hình ảnh, header 3 gạch"
+git commit -m "noi dung sua tieu đề hình ảnh, kthuoc hinh"
 git push

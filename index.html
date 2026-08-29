@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trùm Bán Hàng - App Tính Tiền & In Bill Bluetooth Siêu Tốc</title>
-    <meta name="description" content="Trùm Bán Hàng - Giải pháp chốt đơn, in bill Bluetooth & tạo mã VietQR tự động siêu tốc. Bán Offline 100%, mua 1 lần dùng trọn đời.">
+    <meta name="description" content="Trùm Bán Hàng - Giải pháp chốt đơn, in bill Bluetooth & tạo mã VietQR tự động siêu tốc. Bán Offline 100%, đồng bộ Google Drive, mua 1 lần dùng trọn đời.">
     
     <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,16 +19,32 @@
             background: radial-gradient(circle at top right, #1d4ed8, #0f172a 80%); 
         }
         
-        /* Video & Gallery */
-        .video-wrapper {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.3);
-            border: 3px solid #1e293b;
+        /* Video Phone Frame (Khung điện thoại dựng dọc 9:16) */
+        .video-phone-frame {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 9 / 18.5;
             background: #000;
-            aspect-ratio: 16 / 9;
+            border-radius: 36px;
+            border: 8px solid #1e293b;
+            box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.35);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
         }
+        .video-phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 12px;
+            background-color: #1e293b;
+            border-radius: 20px;
+            z-index: 40;
+        }
+
         .gallery-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -83,9 +99,51 @@
             color: #ffffff;
             border-color: #2563eb;
         }
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        /* Tỉ lệ chuẩn 1080x2316 cho khung Video điện thoại */
+.video-phone-frame {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1080 / 2316;
+    background: #000;
+    border-radius: 36px;
+    border: 8px solid #1e293b;
+    box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.35);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* Khung chứa ảnh trong Gallery */
+.gallery-img-container {
+    aspect-ratio: 1080 / 2316;
+    max-height: 480px;
+    background-color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.card-img-mockup {
+    height: 620px; /* Tăng chiều cao để thấy trọn vẹn chân app */
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #0f172a;
+}
+.card-img-mockup img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.gallery-card:hover .card-img-mockup img {
+    transform: scale(1.03);
+}
+
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 scroll-smooth antialiased">
@@ -106,25 +164,22 @@
         <div class="hidden md:flex items-center gap-6 text-sm font-bold text-slate-700">
             <a href="#features" class="hover:text-blue-600 transition">Tính Năng</a>
             <a href="#demo" class="hover:text-blue-600 transition">Mô Phỏng POS</a>
-            <a href="#videos" class="hover:text-blue-600 transition">Hình Ảnh Thao Tác</a>
+            <a href="#videos" class="hover:text-blue-600 transition">Video & Thao Tác</a>
             <a href="#pricing" class="hover:text-blue-600 transition">Bảng Giá</a>
         </div>
         
-        <!-- Nhóm nút hành động bên phải (Hiện cả PC và Điện thoại) -->
+        <!-- Nhóm nút hành động bên phải -->
         <div class="flex items-center gap-2">
-            <!-- Nút Liên Hệ Zalo (Hiện trên cả điện thoại lẫn PC) -->
             <a href="#contact" class="inline-flex items-center gap-1.5 border border-blue-200 bg-blue-50/60 hover:bg-blue-100 hover:border-blue-400 text-blue-700 font-bold text-xs sm:text-sm px-3 py-2 rounded-xl transition">
                 <i class="fa-solid fa-headset text-blue-600"></i>
                 <span>Liên Hệ</span>
             </a>
 
-            <!-- Nút Tải APK -->
             <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5">
                 <i class="fa-brands fa-android text-sm sm:text-base"></i>
                 <span>Tải APK</span>
             </a>
 
-            <!-- Nút 3 gạch Menu Mobile -->
             <button onclick="toggleMobileNav()" class="md:hidden p-2 text-slate-700 hover:text-blue-600 focus:outline-none rounded-lg border border-slate-200">
                 <i id="navMenuIcon" class="fa-solid fa-bars text-base"></i>
             </button>
@@ -140,7 +195,7 @@
             <i class="fa-solid fa-laptop-code text-blue-500 w-5"></i> Mô Phỏng POS
         </a>
         <a href="#videos" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
-            <i class="fa-solid fa-images text-blue-500 w-5"></i> Hình Ảnh Thao Tác
+            <i class="fa-solid fa-images text-blue-500 w-5"></i> Video & Thao Tác
         </a>
         <a href="#pricing" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
             <i class="fa-solid fa-tags text-blue-500 w-5"></i> Bảng Giá 399k
@@ -150,8 +205,6 @@
         </a>
     </div>
 </nav>
-
-
 
 <!-- Hero Section -->
 <header class="hero-bg text-white py-16 sm:py-24 px-4 sm:px-6 text-center shadow-lg relative overflow-hidden">
@@ -166,7 +219,7 @@
         
         <p class="text-base sm:text-xl text-slate-200 mb-8 max-w-2xl mx-auto leading-relaxed font-normal">
             Giải pháp chốt đơn, in bill Bluetooth & tạo mã VietQR tự động siêu tốc.<br class="hidden sm:inline">
-            <span class="text-amber-300 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-300/20 inline-block mt-2 sm:mt-1">Mua 1 lần dùng trọn đời — Không phí duy trì hàng tháng!</span>
+            <span class="text-amber-300 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-300/20 inline-block mt-2 sm:mt-1">Mua 1 lần dùng trọn đời — Sao lưu Google Drive an toàn!</span>
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -188,14 +241,14 @@
         <p class="text-slate-500 mt-2 text-sm sm:text-base">Đơn giản, tốc độ, cắt bỏ 100% các tính năng rườm rà</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-blue-300 hover:shadow-md transition">
             <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
                 <i class="fa-solid fa-wifi-slash"></i>
             </div>
-            <h3 class="text-lg font-bold text-slate-800 mb-2">Bán Hàng Offline 100%</h3>
-            <p class="text-slate-600 text-sm leading-relaxed">
-                Dữ liệu lưu ngay trên điện thoại (Room DB). Mất mạng, cúp điện, bán vỉa hè sóng yếu vẫn bấm món và in hóa đơn mượt mà.
+            <h3 class="text-base font-bold text-slate-800 mb-2">Offline 100%</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                Dữ liệu lưu ngay trên điện thoại (Room DB). Mất mạng, cúp điện, bán vỉa hè vẫn bấm món và in hóa đơn mượt mà.
             </p>
         </div>
 
@@ -203,9 +256,9 @@
             <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
                 <i class="fa-solid fa-qrcode"></i>
             </div>
-            <h3 class="text-lg font-bold text-slate-800 mb-2">Mã VietQR Tự Động</h3>
-            <p class="text-slate-600 text-sm leading-relaxed">
-                Tự sinh mã QR chuẩn Napas chứa chính xác số tiền từng hóa đơn. Khách chỉ cần quét là xong, không lo bấm nhầm số tiền.
+            <h3 class="text-base font-bold text-slate-800 mb-2">VietQR Tự Động</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                Tự sinh mã QR Napas 247 chứa đúng số tiền từng đơn hàng. Khách quét là thanh toán ngay, không sợ nhầm lẫn.
             </p>
         </div>
 
@@ -213,15 +266,25 @@
             <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
                 <i class="fa-solid fa-print"></i>
             </div>
-            <h3 class="text-lg font-bold text-slate-800 mb-2">In Bill Bluetooth 2 Giây</h3>
-            <p class="text-slate-600 text-sm leading-relaxed">
-                Kết nối không dây với máy in nhiệt mini cầm tay (58mm/80mm). Bấm thanh toán là máy tọt ra hóa đơn kèm mã QR thanh toán ngay.
+            <h3 class="text-base font-bold text-slate-800 mb-2">In Bill Bluetooth</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                Kết nối không dây với máy in nhiệt mini cầm tay (58mm/80mm). Bấm thanh toán là máy nhả hóa đơn kèm QR siêu nhanh.
+            </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-amber-300 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
+                <i class="fa-brands fa-google-drive"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 mb-2">Sao Lưu Google Drive</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                Tự động đồng bộ cơ sở dữ liệu lên Google Drive cá nhân. Đổi máy hay mất máy đều khôi phục lại dữ liệu trong 3 giây.
             </p>
         </div>
     </div>
 </section>
 
-<!-- LIVE POS SIMULATOR (MÔ PHỎNG TRỰC TIẾP) -->
+<!-- LIVE POS SIMULATOR -->
 <section id="demo" class="py-16 px-4 bg-white border-y border-slate-200">
     <div class="max-w-6xl mx-auto">
         <div class="text-center max-w-2xl mx-auto mb-12">
@@ -347,6 +410,7 @@
                         <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i> Hỗ trợ mọi ứng dụng ngân hàng & ví điện tử</li>
                         <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i> Tránh thất thoát, không lo thối nhầm tiền lẻ</li>
                         <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i> In trực tiếp QR lên bill thanh toán 58mm/80mm</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i> Tự động sao lưu dữ liệu lên Google Drive</li>
                     </ul>
                 </div>
             </div>
@@ -354,28 +418,31 @@
     </div>
 </section>
 
-<!-- VIDEO & HÌNH ẢNH THẬT TRÊN APP -->
-<section id="videos" class="py-16 px-4 max-w-6xl mx-auto">
+<!-- VIDEO DEMO THỰC TẾ (DẠNG PHONE MOCKUP DỰNG DỌC) -->
+<section id="videos" class="py-16 px-4 max-w-5xl mx-auto">
     <div class="text-center mb-12">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Video & Hình Ảnh Thao Tác Thực Tế</h2>
-        <p class="text-slate-500 mt-2 text-sm sm:text-base">Xem cận cảnh luồng chọn bàn, gọi món và chỉnh sửa dữ liệu trên điện thoại</p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Video Hướng Dẫn Thao Tác</h2>
+        <p class="text-slate-500 mt-2 text-sm sm:text-base">Xem cận cảnh luồng chọn bàn, gọi món và quản lý thực đơn ngay trên màn hình điện thoại</p>
     </div>
 
-    <!-- 2 Khung Video -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-        <div class="space-y-3">
-            <h3 class="font-extrabold text-slate-800 text-base flex items-center gap-2">
-                <i class="fa-solid fa-play-circle text-blue-600"></i> Video 1: Luồng Chọn Bàn & In Bill
+    <!-- 2 Khung Video Dọc Chuẩn Khung Điện Thoại -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16 justify-items-center">
+        <!-- Video 1 -->
+        <div class="w-full flex flex-col items-center">
+            <h3 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-play-circle text-blue-600"></i> Luồng Chọn Bàn & In Hóa Đơn
             </h3>
-            <div class="video-wrapper">
+            <div class="video-phone-frame">
                 <iframe src="https://drive.google.com/file/d/17dJnR6ICgDGt7GuuNI7cwcmS83x27GiS/preview" allow="autoplay" allowfullscreen class="w-full h-full border-none"></iframe>
             </div>
         </div>
-        <div class="space-y-3">
-            <h3 class="font-extrabold text-slate-800 text-base flex items-center gap-2">
-                <i class="fa-solid fa-pen-to-square text-blue-600"></i> Video 2: Chỉnh Sửa Thông Tin Bàn & Món
+
+        <!-- Video 2 -->
+        <div class="w-full flex flex-col items-center">
+            <h3 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-pen-to-square text-blue-600"></i> Thêm & Chỉnh Sửa Menu Món Ăn
             </h3>
-            <div class="video-wrapper">
+            <div class="video-phone-frame">
                 <iframe src="https://drive.google.com/file/d/17dJnR6ICgDGt7GuuNI7cwcmS83x27GiS/preview" allow="autoplay" allowfullscreen class="w-full h-full border-none"></iframe>
             </div>
         </div>
@@ -386,103 +453,109 @@
         <h3 class="text-xl font-bold text-slate-900">Giao Diện Màn Hình Ứng Dụng</h3>
         <p class="text-slate-500 text-xs mt-1">Bấm vào từng ảnh để phóng to chi tiết</p>
     </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- 1. Cấu hình -->
-        <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">1. Cấu Hình</span>
-                <img src="https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG" alt="Thiết lập cửa hàng" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
+<!-- Gallery 9 Ảnh Chuẩn Lưới 3x3 Cân Đối -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-16 justify-items-center">
+        
+        <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG')">
+                <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">1. Cấu Hình</span>
+                <img src="https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG" alt="Thiết lập cửa hàng" loading="lazy">
             </div>
-            <div class="p-4 border-t border-slate-200 flex-1">
-                <h4 class="font-bold text-slate-900 text-sm mb-1">Thiết Lập Cửa Hàng</h4>
+            <div class="p-5 border-t border-slate-200 flex-1 bg-white">
+                <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Thiết Lập Cửa Hàng</h4>
                 <p class="text-slate-500 text-xs leading-relaxed">Cấu hình máy in Bluetooth, thông tin quán và tài khoản nhận VietQR Napas.</p>
             </div>
         </div>
 
-        <!-- 2. Sơ đồ bàn -->
-        <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">2. Sơ Đồ Bàn</span>
-                <img src="https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4" alt="Sơ đồ bàn phục vụ" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
+        <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4')">
+                <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">2. Sơ Đồ Bàn</span>
+                <img src="https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4" alt="Sơ đồ bàn phục vụ" loading="lazy">
             </div>
-            <div class="p-4 border-t border-slate-200 flex-1">
-                <h4 class="font-bold text-slate-900 text-sm mb-1">Quản Lý Sơ Đồ Bàn</h4>
+            <div class="p-5 border-t border-slate-200 flex-1 bg-white">
+                <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Quản Lý Sơ Đồ Bàn</h4>
                 <p class="text-slate-500 text-xs leading-relaxed">Theo dõi trực quan bàn trống, bàn đang chọn món, có khách và cần dọn dẹp.</p>
             </div>
         </div>
 
-        <!-- 3. Màn hình Order -->
-        <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1jyKE5ec8ID1tbm0hXBFsVTZ8aEVIryHU')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">3. Gọi Món</span>
-                <img src="https://lh3.googleusercontent.com/d/1jyKE5ec8ID1tbm0hXBFsVTZ8aEVIryHU" alt="Order chi tiết bàn" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
+        <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1jyKE5ec8ID1tbm0hXBFsVTZ8aEVIryHU')">
+                <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">3. Gọi Món</span>
+                <img src="https://lh3.googleusercontent.com/d/1jyKE5ec8ID1tbm0hXBFsVTZ8aEVIryHU" alt="Order chi tiết bàn" loading="lazy">
             </div>
-            <div class="p-4 border-t border-slate-200 flex-1">
-                <h4 class="font-bold text-slate-900 text-sm mb-1">Màn Hình Order</h4>
+            <div class="p-5 border-t border-slate-200 flex-1 bg-white">
+                <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Màn Hình Order</h4>
                 <p class="text-slate-500 text-xs leading-relaxed">Hiển thị danh sách món đang phục vụ, tổng tạm tính và nút thao tác nhanh.</p>
             </div>
         </div>
 
-        <!-- 4. Thực đơn -->
-        <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1MkkT_Wp69ZLM4qKeHk-827zj7CQ3ZYYr')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">4. Thực Đơn</span>
-                <img src="https://lh3.googleusercontent.com/d/1MkkT_Wp69ZLM4qKeHk-827zj7CQ3ZYYr" alt="Thực đơn chọn món" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
+        <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1MkkT_Wp69ZLM4qKeHk-827zj7CQ3ZYYr')">
+                <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">4. Thực Đơn</span>
+                <img src="https://lh3.googleusercontent.com/d/1MkkT_Wp69ZLM4qKeHk-827zj7CQ3ZYYr" alt="Thực đơn chọn món" loading="lazy">
             </div>
-            <div class="p-4 border-t border-slate-200 flex-1">
-                <h4 class="font-bold text-slate-900 text-sm mb-1">Thực Đơn Phân Loại</h4>
-                <p class="text-slate-500 text-xs leading-relaxed">
-                   Chỉ cần một cái chạm nhẹ vào chọn món xuất hiện ngay danh mục món ăn,
-                    hình ảnh món lấy từ thư viện ảnh và phân nhóm tiện lợi. Để thay đổi hay xóa
-                    món, chỉ cần chạm và giữ vào món sẽ hiện lên hộp thoại thuận tiện sửa và lưu nhanh chóng.
-                </p>
+            <div class="p-5 border-t border-slate-200 flex-1 bg-white">
+                <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Thực Đơn Phân Loại</h4>
+                <p class="text-slate-500 text-xs leading-relaxed">Chạm nhẹ thêm món vào bàn. Nhấn giữ món để sửa tên, cập nhật giá và đổi ảnh đại diện.</p>
             </div>
         </div>
 
-        <!-- 5. Thanh toán -->
-        <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Zqs1LeYjUbVjtowkmMQFpbxA8GghvI_3')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">5. Thanh Toán</span>
-                <img src="https://lh3.googleusercontent.com/d/1Zqs1LeYjUbVjtowkmMQFpbxA8GghvI_3" alt="Sau khi bấm thanh toán" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
+        <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Zqs1LeYjUbVjtowkmMQFpbxA8GghvI_3')">
+                <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">5. Thanh Toán</span>
+                <img src="https://lh3.googleusercontent.com/d/1Zqs1LeYjUbVjtowkmMQFpbxA8GghvI_3" alt="Sau khi bấm thanh toán" loading="lazy">
             </div>
-            <div class="p-4 border-t border-slate-200 flex-1">
-                <h4 class="font-bold text-slate-900 text-sm mb-1">Xác Nhận Hóa Đơn</h4>
-                <p class="text-slate-500 text-xs leading-relaxed">
-                    Ngay sau khi chọn thanh toán sẽ xuất hiện hai tính năng là chọn tiền mặt và mã Qr. 
-                    Sau khi xác nhận, hệ thống sẽ tổng kết thành tiền và sẵn sàng xuất lệnh in hóa đơn.</p>
+            <div class="p-5 border-t border-slate-200 flex-1 bg-white">
+                <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Xác Nhận Hóa Đơn</h4>
+                <p class="text-slate-500 text-xs leading-relaxed">Lựa chọn thanh toán Tiền mặt hoặc VietQR, hệ thống chuẩn bị sẵn lệnh in bill tức thì.</p>
             </div>
         </div>
 
-        <!-- 6. Mã VietQR Napas -->
-        <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1kGghSighCcgxncFUFxLlK0ZXfqLPSvMD')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">6. VietQR Động</span>
-                <img src="https://lh3.googleusercontent.com/d/1kGghSighCcgxncFUFxLlK0ZXfqLPSvMD" alt="Mã VietQR Napas" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
+        <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1kGghSighCcgxncFUFxLlK0ZXfqLPSvMD')">
+                <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">6. VietQR Động</span>
+                <img src="https://lh3.googleusercontent.com/d/1kGghSighCcgxncFUFxLlK0ZXfqLPSvMD" alt="Mã VietQR Napas" loading="lazy">
             </div>
-            <div class="p-4 border-t border-slate-200 flex-1">
-                <h4 class="font-bold text-slate-900 text-sm mb-1">Mã QR Thanh Toán</h4>
-                <p class="text-slate-500 text-xs leading-relaxed">
-                    Mã chuẩn Napas 247 nhúng sẵn số tiền và nội dung chuyển khoản tự động
-                    ngay sau khi chọn thanh toán mã QR, chỉ cần đưa khách hàng quét ngay là tính tiền.</p>
+            <div class="p-5 border-t border-slate-200 flex-1 bg-white">
+                <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Mã QR Thanh Toán</h4>
+                <p class="text-slate-500 text-xs leading-relaxed">Mã Napas 247 nhúng tự động số tiền và nội dung, quét chuyển tiền không cần gõ số.</p>
             </div>
         </div>
-        <!-- 7. in tạm -->
-        <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/15X_2cmFjN3L5ASmJYZT9dOektIc1BWY-')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">7. Hóa đơn tạm</span>
-                <img src=
-                "https://lh3.googleusercontent.com/d/15X_2cmFjN3L5ASmJYZT9dOektIc1BWY-" alt="Mã VietQR Napas" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
+
+        <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/15X_2cmFjN3L5ASmJYZT9dOektIc1BWY-')">
+                <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">7. Hóa Đơn Tạm</span>
+                <img src="https://lh3.googleusercontent.com/d/15X_2cmFjN3L5ASmJYZT9dOektIc1BWY-" alt="Hóa đơn lưu trong máy" loading="lazy">
             </div>
-            <div class="p-4 border-t border-slate-200 flex-1">
-                <h4 class="font-bold text-slate-900 text-sm mb-1">Hóa đơn tạm lưu trong ảnh</h4>
-                <p class="text-slate-500 text-xs leading-relaxed">
-                    Ngay sau khi chọn thanh toán tiền mặt hay quét mã QR thì app sẽ tự động tạo hóa đơn tạm lưu ngay trong
-                    ảnh của bạn, rất tiện theo dõi khi cần.</p>
+            <div class="p-5 border-t border-slate-200 flex-1 bg-white">
+                <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Lưu Hóa Đơn Dạng Ảnh</h4>
+                <p class="text-slate-500 text-xs leading-relaxed">Tự động kết xuất và lưu bill dạng hình ảnh vào bộ nhớ máy để tiện kiểm tra, đối soát.</p>
             </div>
         </div>
+
+        <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG')">
+                <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">8. Đồng Bộ Drive</span>
+                <img src="https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG" alt="Sao lưu Google Drive" loading="lazy">
+            </div>
+            <div class="p-5 border-t border-slate-200 flex-1 bg-white">
+                <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Sao Lưu & Khôi Phục</h4>
+                <p class="text-slate-500 text-xs leading-relaxed">Đồng bộ dữ liệu an toàn lên Google Drive. Đổi máy hay mất máy đều tải lại dữ liệu trong 3 giây.</p>
+            </div>
+        </div>
+
+        <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4')">
+                <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">9. Lịch Sử & Doanh Thu</span>
+                <img src="https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4" alt="Quản lý lịch sử hóa đơn" loading="lazy">
+            </div>
+            <div class="p-5 border-t border-slate-200 flex-1 bg-white">
+                <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Lịch Sử & Thống Kê</h4>
+                <p class="text-slate-500 text-xs leading-relaxed">Tra cứu chi tiết các đơn đã bán trong ngày, tổng hợp doanh thu tiền mặt và chuyển khoản dễ dàng.</p>
+            </div>
+        </div>
+
     </div>
-</section>
 
 <!-- BẢNG SO SÁNH -->
 <section class="bg-slate-100 py-16 px-4">
@@ -500,11 +573,15 @@
                 <div class="font-semibold text-emerald-600">Mua 1 lần dùng trọn đời</div>
             </div>
             <div class="grid grid-cols-2 p-4">
-                <div class="text-slate-500">Mất mạng là không thanh toán được</div>
+                <div class="text-slate-500">Mất mạng là ngưng bán</div>
                 <div class="font-semibold text-emerald-600">Offline 100%, không cần mạng</div>
             </div>
             <div class="grid grid-cols-2 p-4">
-                <div class="text-slate-500">Nhiều tính năng thừa, khó dùng</div>
+                <div class="text-slate-500">Dữ liệu phụ thuộc máy chủ bên thứ ba</div>
+                <div class="font-semibold text-emerald-600">Tự động sao lưu Google Drive cá nhân</div>
+            </div>
+            <div class="grid grid-cols-2 p-4">
+                <div class="text-slate-500">Nhiều tính năng thừa, phức tạp</div>
                 <div class="font-semibold text-emerald-600">Siêu gọn: Chọn món ➔ QR ➔ In Bill</div>
             </div>
         </div>
@@ -531,6 +608,7 @@
                 <ul class="space-y-3.5 text-sm text-slate-600 mb-8">
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Kích hoạt bản quyền trọn đời theo máy</li>
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Không giới hạn số lượng món & đơn hàng</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Tích hợp sao lưu Google Drive vĩnh viễn</li>
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Hỗ trợ cài đặt từ xa qua Zalo/UltraView</li>
                 </ul>
             </div>
@@ -553,7 +631,7 @@
                 </div>
                 <ul class="space-y-3.5 text-sm text-slate-600 mb-8">
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> <span><strong>01 Máy in nhiệt Bluetooth mini</strong> (kèm pin, sạc & giấy in)</span></li>
-                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> <span><strong>01 Key App bản quyền</strong> vĩnh viễn</span></li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> <span><strong>01 Key App bản quyền</strong> trọn đời</span></li>
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Cài sẵn tên quán & menu mẫu theo yêu cầu</li>
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Bảo hành máy in 6 tháng (lỗi 1 đổi 1)</li>
                 </ul>
@@ -570,7 +648,7 @@
     <div class="max-w-3xl mx-auto text-center" id="payment">
         <h2 class="text-2xl sm:text-3xl font-extrabold mb-4">Tải Cài Đặt & Kích Hoạt Ngay</h2>
         <p class="text-slate-400 mb-8 text-sm sm:text-base max-w-xl mx-auto">
-            Tải file APK về cài đặt trên điện thoại Android. Sau khi mở app, quét mã QR dưới đây để kích hoạt bản quyền nhanh chóng.
+            Tải file APK về cài đặt trên điện thoại Android. Mở app để dùng thử đầy đủ tính năng trong 7 ngày.
         </p>
 
         <div class="mb-10">
@@ -583,7 +661,6 @@
             <h4 class="font-extrabold text-slate-900 text-lg mb-1">Thanh Toán Kích Hoạt</h4>
             <p class="text-xs text-slate-500 mb-4">Chọn gói bạn muốn mua bên dưới:</p>
 
-            <!-- 2 Nút chọn gói -->
             <div class="grid grid-cols-2 gap-2 mb-4">
                 <button id="btnPlanKey" onclick="selectPlan(399000, 'KEY')" class="border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold py-2.5 px-1 rounded-xl text-xs transition">
                     Key App<br><span class="text-sm font-extrabold">399.000đ</span>
@@ -593,7 +670,6 @@
                 </button>
             </div>
 
-            <!-- Khung hiển thị ảnh QR -->
             <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 mb-4 inline-block">
                 <img id="mainQrImage" src="https://img.vietqr.io/image/BIDV-6110552461-compact2.png?amount=399000&addInfo=MUA%20KEY%20TRUM%20BAN%20HANG&accountName=NGUYEN%20VAN%20HEN" alt="VietQR" class="w-56 h-auto mx-auto rounded-lg">
             </div>
@@ -609,25 +685,21 @@
 
 <!-- Footer & Liên Hệ -->
 <footer class="bg-slate-950 text-slate-500 py-12 px-4 text-center text-xs">
-    <!-- KHỐI LIÊN HỆ & HỖ TRỢ KỸ THUẬT -->
     <div id="contact" class="max-w-4xl mx-auto mb-10 p-6 sm:p-8 bg-slate-900 border border-slate-800 rounded-3xl text-center shadow-xl">
         <h3 class="text-xl sm:text-2xl font-black text-white mb-2">Cần Hỗ Trợ Kích Hoạt Hoặc Mua Thiết Bị?</h3>
         <p class="text-sm text-slate-400 mb-6">Liên hệ trực tiếp với chúng tôi để nhận Key kích hoạt trong 3 phút hoặc tư vấn combo máy in.</p>
         
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <!-- Zalo -->
             <a href="https://zalo.me/0942764008" target="_blank" class="flex items-center justify-center gap-3 p-4 bg-blue-600/10 border border-blue-500/30 rounded-2xl hover:bg-blue-600/20 transition text-blue-400 font-bold">
                 <i class="fa-solid fa-comment-dots text-xl"></i>
                 <span>Zalo: 0942.764.008</span>
             </a>
 
-            <!-- Hotline / SĐT -->
             <a href="tel:0926259707" class="flex items-center justify-center gap-3 p-4 bg-emerald-600/10 border border-emerald-500/30 rounded-2xl hover:bg-emerald-600/20 transition text-emerald-400 font-bold">
                 <i class="fa-solid fa-phone text-xl"></i>
                 <span>Hotline: 0926.259.707</span>
             </a>
 
-            <!-- Email -->
             <a href="mailto:nguyenvanhen270182@gmail.com" class="flex items-center justify-center gap-3 p-4 bg-amber-600/10 border border-amber-500/30 rounded-2xl hover:bg-amber-600/20 transition text-amber-400 font-bold">
                 <i class="fa-solid fa-envelope text-xl"></i>
                 <span class="truncate">nguyenvanhen270182@gmail.com</span>
@@ -637,7 +709,7 @@
     <p>© 2026 TRÙM BÁN HÀNG. Ứng dụng quản lý bán hàng & in hóa đơn POS đơn giản cho người Việt.</p>
 </footer>
 
-<!-- LIGHTBOX XEM ẢNH PHÓNG TO -->
+<!-- LIGHTBOX XEM ẢNH -->
 <div id="lightboxModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-[100] items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
     <img id="lightboxImg" class="max-w-[90%] max-h-[88vh] rounded-2xl shadow-2xl object-contain" src="" alt="Ảnh phóng to">
 </div>
@@ -859,13 +931,10 @@
             btnKey.className = 'border-2 border-slate-200 bg-white text-slate-600 font-bold py-2.5 px-1 rounded-xl text-xs transition hover:border-slate-300';
         }
 
-        // Cập nhật link ảnh VietQR mới tương ứng với số tiền chính xác
         qrImg.src = `https://img.vietqr.io/image/${BANK_CONFIG.bankId}-${BANK_CONFIG.accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(memo)}&accountName=${encodeURIComponent(BANK_CONFIG.accountName)}`;
-   
-   
-   }
+    }
 
-       function toggleMobileNav() {
+    function toggleMobileNav() {
         const menu = document.getElementById('mobileDropdown');
         const icon = document.getElementById('navMenuIcon');
         

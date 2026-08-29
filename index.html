@@ -93,13 +93,16 @@
 <!-- Header Navigation -->
 <nav class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <a href="#" class="flex items-center gap-2.5 text-xl font-black text-blue-600 tracking-tight hover:opacity-90 transition">
-            <span class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg shadow-md shadow-blue-500/30">
+        
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2 text-lg sm:text-xl font-black text-blue-600 tracking-tight hover:opacity-90 transition">
+            <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center text-base sm:text-lg shadow-md shadow-blue-500/30">
                 <i class="fa-solid fa-cash-register"></i>
             </span>
             <span>TRÙM BÁN HÀNG</span>
         </a>
         
+        <!-- Menu trên Máy tính (PC / Laptop) -->
         <div class="hidden md:flex items-center gap-7 text-sm font-bold text-slate-700">
             <a href="#features" class="hover:text-blue-600 transition">Tính Năng</a>
             <a href="#demo" class="hover:text-blue-600 transition">Mô Phỏng POS</a>
@@ -107,20 +110,58 @@
             <a href="#pricing" class="hover:text-blue-600 transition">Bảng Giá</a>
         </div>
         
-        <div class="flex items-center gap-2.5">
-            <!-- Nút Liên Hệ trên Header -->
-            <a href="#contact" class="hidden sm:inline-flex items-center gap-1.5 border border-slate-300 hover:border-blue-600 hover:text-blue-600 text-slate-700 font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl transition">
-                <i class="fa-solid fa-headset text-blue-600"></i>
-                <span>Liên Hệ</span>
-            </a>
-            <!-- Nút Tải APK -->
-            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center gap-2">
-                <i class="fa-brands fa-android text-base"></i>
+        <!-- Nhóm nút bên phải -->
+        <div class="flex items-center gap-2">
+            <!-- Nút Tải APK luôn hiện cả Mobile lẫn PC -->
+            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5">
+                <i class="fa-brands fa-android text-sm sm:text-base"></i>
                 <span>Tải APK</span>
             </a>
+
+            <!-- Nút 3 gạch Menu dành riêng cho Điện thoại -->
+            <button onclick="toggleMobileNav()" class="md:hidden p-2 text-slate-700 hover:text-blue-600 focus:outline-none rounded-lg border border-slate-200">
+                <i id="navMenuIcon" class="fa-solid fa-bars text-lg"></i>
+            </button>
         </div>
     </div>
+
+    <!-- Menu xổ xuống trên Điện thoại (Mặc định ẩn) -->
+    <div id="mobileDropdown" class="hidden md:hidden bg-white border-t border-slate-100 px-5 py-4 space-y-3 shadow-lg">
+        <a href="#features" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
+            <i class="fa-solid fa-star text-blue-500 w-5"></i> Tính Năng
+        </a>
+        <a href="#demo" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
+            <i class="fa-solid fa-laptop-code text-blue-500 w-5"></i> Mô Phỏng POS
+        </a>
+        <a href="#videos" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
+            <i class="fa-solid fa-images text-blue-500 w-5"></i> Hình Ảnh Thao Tác
+        </a>
+        <a href="#pricing" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
+            <i class="fa-solid fa-tags text-blue-500 w-5"></i> Bảng Giá 399k
+        </a>
+        <a href="#contact" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
+            <i class="fa-solid fa-headset text-blue-500 w-5"></i> Liên Hệ Hỗ Trợ
+        </a>
+    </div>
 </nav>
+
+<!-- Đoạn Script điều khiển đóng/mở menu trên Mobile -->
+<script>
+    function toggleMobileNav() {
+        const menu = document.getElementById('mobileDropdown');
+        const icon = document.getElementById('navMenuIcon');
+        
+        if (menu.classList.contains('hidden')) {
+            menu.classList.remove('hidden');
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+        } else {
+            menu.classList.add('hidden');
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+        }
+    }
+</script>
 
 <!-- Hero Section -->
 <header class="hero-bg text-white py-16 sm:py-24 px-4 sm:px-6 text-center shadow-lg relative overflow-hidden">

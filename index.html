@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trùm Bán Hàng - App Tính Tiền & In Bill Offline Cho Quán Nhỏ</title>
+    <title>Trùm Bán Hàng - App Tính Tiền & In Bill Bluetooth Siêu Tốc</title>
+    <meta name="description" content="Trùm Bán Hàng - Giải pháp chốt đơn, in bill Bluetooth & tạo mã VietQR tự động siêu tốc. Bán Offline 100%, mua 1 lần dùng trọn đời.">
+    
     <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
-        .hero-bg { background: radial-gradient(circle at top right, #1e3a8a, #0f172a); }
+        .hero-bg { 
+            background: radial-gradient(circle at top right, #1d4ed8, #0f172a 80%); 
+        }
         
-        /* CSS cho bộ Simulator & Gallery */
+        /* Video & Gallery */
         .video-wrapper {
             position: relative;
             border-radius: 20px;
@@ -26,23 +30,37 @@
             aspect-ratio: 16 / 9;
         }
         .gallery-card {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .gallery-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
         }
+
+        /* Phone Frame Simulator */
         .phone-frame {
             width: 360px;
             height: 680px;
-            background: #f1f5f9;
-            border-radius: 36px;
-            box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.25);
-            border: 8px solid #1e293b;
+            background: #f8fafc;
+            border-radius: 40px;
+            box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.35);
+            border: 10px solid #1e293b;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+        }
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 14px;
+            background-color: #0f172a;
+            border-radius: 20px;
+            z-index: 40;
         }
         .menu-sheet {
             position: absolute;
@@ -53,7 +71,7 @@
             background: #ffffff;
             z-index: 30;
             transform: translateY(100%);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
         }
@@ -65,53 +83,68 @@
             color: #ffffff;
             border-color: #2563eb;
         }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 scroll-smooth">
+<body class="bg-slate-50 text-slate-800 scroll-smooth antialiased">
 
 <!-- Header Navigation -->
-<nav class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+<nav class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <a href="#" class="flex items-center gap-2 text-xl font-extrabold text-blue-600">
-            <i class="fa-solid fa-cash-register text-2xl"></i> TRÙM BÁN HÀNG
+        <a href="#" class="flex items-center gap-2.5 text-xl font-black text-blue-600 tracking-tight hover:opacity-90 transition">
+            <span class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg shadow-md shadow-blue-500/30">
+                <i class="fa-solid fa-cash-register"></i>
+            </span>
+            <span>TRÙM BÁN HÀNG</span>
         </a>
-        <div class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-700">
+        
+        <div class="hidden md:flex items-center gap-7 text-sm font-bold text-slate-700">
             <a href="#features" class="hover:text-blue-600 transition">Tính Năng</a>
             <a href="#demo" class="hover:text-blue-600 transition">Mô Phỏng POS</a>
-            <a href="#videos" class="hover:text-blue-600 transition">Video & Ảnh Thật</a>
+            <a href="#videos" class="hover:text-blue-600 transition">Hình Ảnh Thao Tác</a>
             <a href="#pricing" class="hover:text-blue-600 transition">Bảng Giá</a>
         </div>
-        <div class="flex items-center gap-3">
-            <!-- Dòng khoảng 45-50 -->
-<a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl transition flex items-center gap-2">
-    <i class="fa-brands fa-android text-base"></i> Tải APK
-</a>
+        
+        <div class="flex items-center gap-2.5">
+            <!-- Nút Liên Hệ trên Header -->
+            <a href="#contact" class="hidden sm:inline-flex items-center gap-1.5 border border-slate-300 hover:border-blue-600 hover:text-blue-600 text-slate-700 font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl transition">
+                <i class="fa-solid fa-headset text-blue-600"></i>
+                <span>Liên Hệ</span>
+            </a>
+            <!-- Nút Tải APK -->
+            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center gap-2">
+                <i class="fa-brands fa-android text-base"></i>
+                <span>Tải APK</span>
+            </a>
         </div>
     </div>
 </nav>
 
 <!-- Hero Section -->
-<header class="hero-bg text-white py-16 px-4 sm:px-6 text-center shadow-lg relative overflow-hidden">
-    <div class="max-w-4xl mx-auto">
-        <div class="inline-flex items-center gap-2 bg-blue-500/30 border border-blue-400/40 text-blue-200 text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
-            <i class="fa-solid fa-bolt text-yellow-400"></i> GIẢI PHÁP TÍNH TIỀN OFFLINE 100%
+<header class="hero-bg text-white py-16 sm:py-24 px-4 sm:px-6 text-center shadow-lg relative overflow-hidden">
+    <div class="max-w-4xl mx-auto relative z-10">
+        <div class="inline-flex items-center gap-2 bg-blue-500/20 border border-blue-400/30 backdrop-blur-md text-blue-200 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full mb-6 shadow-inner">
+            <i class="fa-solid fa-bolt text-yellow-400"></i> TRÙM TỐC ĐỘ — GIẢI PHÁP TÍNH TIỀN OFFLINE 100%
         </div>
-        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
+        
+        <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-5 leading-tight text-white drop-shadow-sm">
             TRÙM BÁN HÀNG
         </h1>
-        <p class="text-lg sm:text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-            App tính tiền, in bill Bluetooth & tạo mã VietQR tự động cho xe cafe, quán ăn vặt, tiệm nước mang đi. <br class="hidden sm:inline">
-            <strong class="text-white font-semibold">Mua 1 lần dùng trọn đời — Không phí duy trì hàng tháng!</strong>
+        
+        <p class="text-base sm:text-xl text-slate-200 mb-8 max-w-2xl mx-auto leading-relaxed font-normal">
+            Giải pháp chốt đơn, in bill Bluetooth & tạo mã VietQR tự động siêu tốc.<br class="hidden sm:inline">
+            <span class="text-amber-300 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-300/20 inline-block mt-2 sm:mt-1">Mua 1 lần dùng trọn đời — Không phí duy trì hàng tháng!</span>
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <!-- Dòng khoảng 68-73 -->
-        <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
-            <i class="fa-brands fa-android text-2xl"></i>
-            <span>TẢI DÙNG THỬ 7 NGÀY (APK)</span>
-        </a>
-            <a href="#demo" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-semibold py-3.5 px-8 rounded-xl border border-white/20 transition-all flex items-center justify-center gap-2">
-                <i class="fa-solid fa-play"></i> Dùng Thử Trực Tiếp Trên Web
+            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white font-black py-4 px-8 rounded-2xl shadow-xl shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                <i class="fa-brands fa-android text-2xl"></i>
+                <span>TẢI DÙNG THỬ 7 NGÀY (APK)</span>
+            </a>
+            <a href="#demo" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 active:scale-95 text-white font-bold py-4 px-8 rounded-2xl border border-white/20 backdrop-blur-md transition-all flex items-center justify-center gap-2">
+                <i class="fa-solid fa-play text-xs"></i> Dùng Thử Trực Tiếp Trên Web
             </a>
         </div>
     </div>
@@ -120,13 +153,13 @@
 <!-- Tính Năng Nổi Bật -->
 <section id="features" class="py-16 px-4 max-w-6xl mx-auto">
     <div class="text-center mb-12">
-        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Tại sao nên chọn Trùm Bán Hàng?</h2>
-        <p class="text-slate-500 mt-2">Đơn giản, thực chiến, cắt bỏ 100% các tính năng rườm rà</p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Tại sao nên chọn Trùm Bán Hàng?</h2>
+        <p class="text-slate-500 mt-2 text-sm sm:text-base">Đơn giản, tốc độ, cắt bỏ 100% các tính năng rườm rà</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-blue-300 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
                 <i class="fa-solid fa-wifi-slash"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-2">Bán Hàng Offline 100%</h3>
@@ -135,8 +168,8 @@
             </p>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-emerald-300 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
                 <i class="fa-solid fa-qrcode"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-2">Mã VietQR Tự Động</h3>
@@ -145,8 +178,8 @@
             </p>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-purple-300 hover:shadow-md transition">
+            <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
                 <i class="fa-solid fa-print"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-2">In Bill Bluetooth 2 Giây</h3>
@@ -161,18 +194,18 @@
 <section id="demo" class="py-16 px-4 bg-white border-y border-slate-200">
     <div class="max-w-6xl mx-auto">
         <div class="text-center max-w-2xl mx-auto mb-12">
-            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase">Trải Nghiệm Trực Quan</span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">Mô Phỏng Giao Diện App Trên Trình Duyệt</h2>
+            <span class="bg-blue-100 text-blue-700 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider">Trải Nghiệm Trực Quan</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Mô Phỏng Giao Diện App Mobile</h2>
             <p class="text-slate-500 mt-2 text-sm sm:text-base">Thử bấm chọn bàn, thêm món và xuất mã VietQR Napas chuẩn xác như trên điện thoại.</p>
         </div>
 
         <div class="flex flex-col lg:flex-row justify-center items-center gap-10">
-            <!-- Mô phỏng điện thoại -->
+            <!-- Khung điện thoại mô phỏng -->
             <div class="phone-frame">
                 <!-- Status bar -->
-                <div class="bg-slate-900 text-white text-[11px] font-semibold px-5 py-1.5 flex justify-between items-center z-20">
+                <div class="bg-slate-900 text-white text-[11px] font-semibold px-5 pt-3.5 pb-1.5 flex justify-between items-center z-20">
                     <span>13:45</span>
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 text-[10px]">
                         <i class="fa-solid fa-wifi"></i>
                         <i class="fa-solid fa-battery-three-quarters"></i>
                     </div>
@@ -180,61 +213,61 @@
 
                 <!-- Screen 1: Sơ đồ bàn -->
                 <div id="screenTables" class="flex-1 flex flex-col overflow-hidden relative">
-                    <div class="bg-slate-900 p-3 text-white flex justify-between items-center">
+                    <div class="bg-slate-900 p-3 text-white flex justify-between items-center shadow-md">
                         <span class="font-bold text-base">Sơ Đồ Bàn</span>
-                        <i class="fa-solid fa-bars-staggered text-lg"></i>
+                        <i class="fa-solid fa-bars-staggered text-slate-300"></i>
                     </div>
 
-                    <button class="bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs p-2.5 mx-3 mt-2.5 mb-1 rounded-xl flex items-center justify-center gap-1.5 transition">
+                    <button class="bg-orange-600 hover:bg-orange-700 active:scale-95 text-white font-bold text-xs p-2.5 mx-3 mt-3 mb-1.5 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition">
                         <i class="fa-solid fa-box-archive"></i> + Đơn Mang Đi
                     </button>
 
-                    <div class="px-3 py-2 flex flex-col gap-1.5 text-xs">
-                        <div class="flex justify-between bg-white border border-slate-200 px-3 py-1.5 rounded-lg font-bold">
+                    <div class="px-3 py-1.5 flex flex-col gap-1.5 text-xs">
+                        <div class="flex justify-between bg-white border border-slate-200 px-3 py-1.5 rounded-lg font-bold text-slate-700 shadow-2xs">
                             <span>Khu:</span>
                             <span class="text-blue-600">Tất cả khu <i class="fa-solid fa-caret-down"></i></span>
                         </div>
-                        <div class="flex justify-between bg-white border border-slate-200 px-3 py-1.5 rounded-lg font-bold">
+                        <div class="flex justify-between bg-white border border-slate-200 px-3 py-1.5 rounded-lg font-bold text-slate-700 shadow-2xs">
                             <span>T.Thái:</span>
                             <span class="text-blue-600">Tất cả (4) <i class="fa-solid fa-caret-down"></i></span>
                         </div>
                     </div>
 
-                    <div class="flex-1 px-3 py-1 overflow-y-auto grid grid-cols-2 gap-2 content-start">
-                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-center cursor-pointer hover:-translate-y-0.5 transition" onclick="openOrderScreen('Bàn 01')">
+                    <div class="flex-1 px-3 py-1.5 overflow-y-auto grid grid-cols-2 gap-2.5 content-start">
+                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 text-center cursor-pointer hover:border-amber-400 transition" onclick="openOrderScreen('Bàn 01')">
                             <div class="font-extrabold text-slate-800 text-sm">Bàn 01</div>
                             <div class="text-[10px] text-slate-400 mb-1">Khu Chung</div>
-                            <span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded">CẦN DỌN</span>
+                            <span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-md">CẦN DỌN</span>
                         </div>
-                        <div class="bg-sky-50 border border-sky-200 rounded-xl p-3 text-center cursor-pointer hover:-translate-y-0.5 transition" onclick="openOrderScreen('Bàn 02')">
+                        <div class="bg-sky-50 border border-sky-200 rounded-2xl p-3 text-center cursor-pointer hover:border-sky-400 transition" onclick="openOrderScreen('Bàn 02')">
                             <div class="font-extrabold text-slate-800 text-sm">Bàn 02</div>
                             <div class="text-[10px] text-slate-400 mb-1">Khu Chung</div>
-                            <span class="bg-sky-100 text-sky-700 text-[10px] font-bold px-2 py-0.5 rounded">GỌI MÓN</span>
+                            <span class="bg-sky-100 text-sky-800 text-[10px] font-bold px-2 py-0.5 rounded-md">GỌI MÓN</span>
                         </div>
-                        <div class="bg-rose-50 border border-rose-200 rounded-xl p-3 text-center cursor-pointer hover:-translate-y-0.5 transition" onclick="openOrderScreen('Bàn 04')">
+                        <div class="bg-rose-50 border border-rose-200 rounded-2xl p-3 text-center cursor-pointer hover:border-rose-400 transition" onclick="openOrderScreen('Bàn 04')">
                             <div class="font-extrabold text-slate-800 text-sm">Bàn 04</div>
                             <div class="text-[10px] text-slate-400 mb-1">Khu Chung</div>
-                            <span class="bg-rose-100 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded">CÓ KHÁCH</span>
+                            <span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded-md">CÓ KHÁCH</span>
                         </div>
-                        <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center cursor-pointer hover:-translate-y-0.5 transition" onclick="openOrderScreen('Bàn 05')">
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 text-center cursor-pointer hover:border-emerald-400 transition" onclick="openOrderScreen('Bàn 05')">
                             <div class="font-extrabold text-slate-800 text-sm">Bàn 05</div>
                             <div class="text-[10px] text-slate-400 mb-1">Khu Chung</div>
-                            <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded">TRỐNG</span>
+                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-md">TRỐNG</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Screen 2: Order chi tiết -->
                 <div id="screenOrder" class="hidden flex-1 flex-col overflow-hidden relative">
-                    <div class="bg-slate-900 p-3 text-white">
+                    <div class="bg-slate-900 p-3 text-white shadow-md">
                         <div class="flex justify-between items-center mb-2.5">
-                            <div class="flex items-center gap-2 cursor-pointer" onclick="backToTableScreen()">
+                            <div class="flex items-center gap-2 cursor-pointer hover:text-blue-300 transition" onclick="backToTableScreen()">
                                 <i class="fa-solid fa-arrow-left"></i>
                                 <span class="font-bold text-sm" id="currentOrderTableTitle">Order - Bàn 04</span>
                             </div>
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                            <i class="fa-solid fa-ellipsis-vertical text-slate-400"></i>
                         </div>
-                        <button class="w-full h-9 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition" onclick="openMenuSheet()">
+                        <button class="w-full h-9 bg-sky-600 hover:bg-sky-700 active:scale-95 text-white rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition" onclick="openMenuSheet()">
                             <i class="fa-solid fa-plus"></i> CHỌN MÓN
                         </button>
                     </div>
@@ -249,23 +282,23 @@
                             <div class="text-[9px] font-extrabold text-slate-400">TỔNG TẠM TÍNH</div>
                             <div id="totalDisplay" class="text-base font-extrabold text-rose-600">0 đ</div>
                         </div>
-                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition" onclick="openQrModal()">
+                        <button class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs px-4 py-2.5 rounded-lg shadow-sm transition" onclick="openQrModal()">
                             THANH TOÁN
                         </button>
                     </div>
 
                     <!-- Sheet Chọn món -->
                     <div id="menuSheet" class="menu-sheet">
-                        <div class="p-3 bg-slate-900 text-white flex justify-between items-center">
-                            <span class="font-bold text-xs"><i class="fa-solid fa-utensils"></i> Thực Đơn Món Ăn</span>
-                            <button onclick="closeMenuSheet()" class="text-slate-300 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+                        <div class="p-3 bg-slate-900 text-white flex justify-between items-center shadow-md">
+                            <span class="font-bold text-xs flex items-center gap-1.5"><i class="fa-solid fa-utensils"></i> Thực Đơn Món Ăn</span>
+                            <button onclick="closeMenuSheet()" class="text-slate-300 hover:text-white p-1"><i class="fa-solid fa-xmark text-base"></i></button>
                         </div>
                         <div class="flex gap-2 p-2 bg-slate-100 border-b border-slate-200 overflow-x-auto text-xs">
-                            <span class="cat-chip active px-3 py-1 bg-white border border-slate-200 rounded-full font-bold cursor-pointer" onclick="filterCat('ALL', this)">Tất cả</span>
-                            <span class="cat-chip px-3 py-1 bg-white border border-slate-200 rounded-full font-bold cursor-pointer" onclick="filterCat('SEAFOOD', this)">Hải Sản</span>
-                            <span class="cat-chip px-3 py-1 bg-white border border-slate-200 rounded-full font-bold cursor-pointer" onclick="filterCat('BEER', this)">Món Bia</span>
+                            <span class="cat-chip active px-3 py-1 bg-white border border-slate-200 rounded-full font-bold cursor-pointer whitespace-nowrap" onclick="filterCat('ALL', this)">Tất cả</span>
+                            <span class="cat-chip px-3 py-1 bg-white border border-slate-200 rounded-full font-bold cursor-pointer whitespace-nowrap" onclick="filterCat('SEAFOOD', this)">Hải Sản</span>
+                            <span class="cat-chip px-3 py-1 bg-white border border-slate-200 rounded-full font-bold cursor-pointer whitespace-nowrap" onclick="filterCat('BEER', this)">Món Bia</span>
                         </div>
-                        <div class="flex-1 p-2.5 overflow-y-auto grid grid-cols-2 gap-2 bg-slate-100" id="productsGrid"></div>
+                        <div class="flex-1 p-2.5 overflow-y-auto grid grid-cols-2 gap-2 bg-slate-50" id="productsGrid"></div>
                     </div>
                 </div>
             </div>
@@ -273,16 +306,16 @@
             <!-- Khối thông tin bên cạnh mô phỏng -->
             <div class="max-w-md space-y-4">
                 <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm">
-                    <h3 class="text-lg font-extrabold text-slate-900 flex items-center gap-2 mb-2">
+                    <h3 class="text-lg font-black text-slate-900 flex items-center gap-2 mb-2">
                         <i class="fa-solid fa-qrcode text-blue-600"></i> VietQR Động Napas 247
                     </h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-4">
                         Mã QR được khởi tạo tự động, chứa chính xác số tiền cần thanh toán theo từng đơn hàng. Khách chỉ cần quét app ngân hàng là khớp tiền 100%.
                     </p>
-                    <ul class="space-y-2 text-xs text-slate-700">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500"></i> Hỗ trợ mọi ứng dụng ngân hàng & ví điện tử</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500"></i> Không lo nhân viên thối nhầm tiền thừa</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500"></i> In trực tiếp QR lên bill thanh toán 58mm/80mm</li>
+                    <ul class="space-y-2.5 text-xs text-slate-700 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i> Hỗ trợ mọi ứng dụng ngân hàng & ví điện tử</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i> Tránh thất thoát, không lo thối nhầm tiền lẻ</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i> In trực tiếp QR lên bill thanh toán 58mm/80mm</li>
                     </ul>
                 </div>
             </div>
@@ -293,8 +326,8 @@
 <!-- VIDEO & HÌNH ẢNH THẬT TRÊN APP -->
 <section id="videos" class="py-16 px-4 max-w-6xl mx-auto">
     <div class="text-center mb-12">
-        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Video & Hình Ảnh Thao Tác Thực Tế</h2>
-        <p class="text-slate-500 mt-2">Xem cận cảnh luồng chọn bàn, gọi món và chỉnh sửa dữ liệu trên điện thoại</p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Video & Hình Ảnh Thao Tác Thực Tế</h2>
+        <p class="text-slate-500 mt-2 text-sm sm:text-base">Xem cận cảnh luồng chọn bàn, gọi món và chỉnh sửa dữ liệu trên điện thoại</p>
     </div>
 
     <!-- 2 Khung Video -->
@@ -326,8 +359,8 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- 1. Cấu hình -->
         <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20">1. Cấu Hình</span>
+            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG')">
+                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">1. Cấu Hình</span>
                 <img src="https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG" alt="Thiết lập cửa hàng" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
             </div>
             <div class="p-4 border-t border-slate-200 flex-1">
@@ -338,8 +371,8 @@
 
         <!-- 2. Sơ đồ bàn -->
         <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20">2. Sơ Đồ Bàn</span>
+            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4')">
+                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">2. Sơ Đồ Bàn</span>
                 <img src="https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4" alt="Sơ đồ bàn phục vụ" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
             </div>
             <div class="p-4 border-t border-slate-200 flex-1">
@@ -350,8 +383,8 @@
 
         <!-- 3. Màn hình Order -->
         <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1jyKE5ec8ID1tbm0hXBFsVTZ8aEVIryHU')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20">3. Gọi Món</span>
+            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1jyKE5ec8ID1tbm0hXBFsVTZ8aEVIryHU')">
+                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">3. Gọi Món</span>
                 <img src="https://lh3.googleusercontent.com/d/1jyKE5ec8ID1tbm0hXBFsVTZ8aEVIryHU" alt="Order chi tiết bàn" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
             </div>
             <div class="p-4 border-t border-slate-200 flex-1">
@@ -362,37 +395,59 @@
 
         <!-- 4. Thực đơn -->
         <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1MkkT_Wp69ZLM4qKeHk-827zj7CQ3ZYYr')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20">4. Thực Đơn</span>
+            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1MkkT_Wp69ZLM4qKeHk-827zj7CQ3ZYYr')">
+                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">4. Thực Đơn</span>
                 <img src="https://lh3.googleusercontent.com/d/1MkkT_Wp69ZLM4qKeHk-827zj7CQ3ZYYr" alt="Thực đơn chọn món" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
             </div>
             <div class="p-4 border-t border-slate-200 flex-1">
                 <h4 class="font-bold text-slate-900 text-sm mb-1">Thực Đơn Phân Loại</h4>
-                <p class="text-slate-500 text-xs leading-relaxed">Danh mục món ăn, hình ảnh món lấy từ thư viện ảnh và phân nhóm tiện lợi.</p>
+                <p class="text-slate-500 text-xs leading-relaxed">
+                   Chỉ cần một cái chạm nhẹ vào chọn món xuất hiện ngay danh mục món ăn,
+                    hình ảnh món lấy từ thư viện ảnh và phân nhóm tiện lợi. Để thay đổi hay xóa
+                    món, chỉ cần chạm và giữ vào món sẽ hiện lên hộp thoại thuận tiện sửa và lưu nhanh chóng.
+                </p>
             </div>
         </div>
 
         <!-- 5. Thanh toán -->
         <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Zqs1LeYjUbVjtowkmMQFpbxA8GghvI_3')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20">5. Thanh Toán</span>
+            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Zqs1LeYjUbVjtowkmMQFpbxA8GghvI_3')">
+                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">5. Thanh Toán</span>
                 <img src="https://lh3.googleusercontent.com/d/1Zqs1LeYjUbVjtowkmMQFpbxA8GghvI_3" alt="Sau khi bấm thanh toán" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
             </div>
             <div class="p-4 border-t border-slate-200 flex-1">
                 <h4 class="font-bold text-slate-900 text-sm mb-1">Xác Nhận Hóa Đơn</h4>
-                <p class="text-slate-500 text-xs leading-relaxed">Tổng kết thành tiền, chiết khấu và sẵn sàng xuất lệnh in hóa đơn.</p>
+                <p class="text-slate-500 text-xs leading-relaxed">
+                    Ngay sau khi chọn thanh toán sẽ xuất hiện hai tính năng là chọn tiền mặt và mã Qr. 
+                    Sau khi xác nhận, hệ thống sẽ tổng kết thành tiền và sẵn sàng xuất lệnh in hóa đơn.</p>
             </div>
         </div>
 
         <!-- 6. Mã VietQR Napas -->
         <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
-            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1kGghSighCcgxncFUFxLlK0ZXfqLPSvMD')">
-                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20">6. VietQR Động</span>
+            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/1kGghSighCcgxncFUFxLlK0ZXfqLPSvMD')">
+                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">6. VietQR Động</span>
                 <img src="https://lh3.googleusercontent.com/d/1kGghSighCcgxncFUFxLlK0ZXfqLPSvMD" alt="Mã VietQR Napas" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
             </div>
             <div class="p-4 border-t border-slate-200 flex-1">
                 <h4 class="font-bold text-slate-900 text-sm mb-1">Mã QR Thanh Toán</h4>
-                <p class="text-slate-500 text-xs leading-relaxed">Mã chuẩn Napas 247 nhúng sẵn số tiền và nội dung chuyển khoản tự động.</p>
+                <p class="text-slate-500 text-xs leading-relaxed">
+                    Mã chuẩn Napas 247 nhúng sẵn số tiền và nội dung chuyển khoản tự động
+                    ngay sau khi chọn thanh toán mã QR, chỉ cần đưa khách hàng quét ngay là tính tiền.</p>
+            </div>
+        </div>
+        <!-- 7. in tạm -->
+        <div class="gallery-card bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm">
+            <div class="h-64 bg-slate-900 relative flex items-center justify-center cursor-pointer overflow-hidden" onclick="openLightbox('https://lh3.googleusercontent.com/d/15X_2cmFjN3L5ASmJYZT9dOektIc1BWY-')">
+                <span class="absolute top-3 left-3 bg-slate-900/80 text-white px-2.5 py-1 rounded-md text-xs font-bold border border-white/20 z-10">7. Hóa đơn tạm</span>
+                <img src=
+                "https://lh3.googleusercontent.com/d/15X_2cmFjN3L5ASmJYZT9dOektIc1BWY-" alt="Mã VietQR Napas" class="w-full h-full object-contain hover:scale-105 transition duration-300" loading="lazy">
+            </div>
+            <div class="p-4 border-t border-slate-200 flex-1">
+                <h4 class="font-bold text-slate-900 text-sm mb-1">Hóa đơn tạm lưu trong ảnh</h4>
+                <p class="text-slate-500 text-xs leading-relaxed">
+                    Ngay sau khi chọn thanh toán tiền mặt hay quét mã QR thì app sẽ tự động tạo hóa đơn tạm lưu ngay trong
+                    ảnh của bạn, rất tiện theo dõi khi cần.</p>
             </div>
         </div>
     </div>
@@ -406,7 +461,7 @@
         </div>
         <div class="divide-y divide-slate-200 text-sm sm:text-base">
             <div class="grid grid-cols-2 p-4 font-bold bg-slate-50">
-                <div>Phần mềm thuê bao lớn</div>
+                <div class="text-slate-700">Phần mềm thuê bao lớn</div>
                 <div class="text-blue-600">Trùm Bán Hàng</div>
             </div>
             <div class="grid grid-cols-2 p-4">
@@ -428,49 +483,51 @@
 <!-- BẢNG GIÁ BẢN QUYỀN -->
 <section id="pricing" class="py-16 px-4 max-w-5xl mx-auto">
     <div class="text-center mb-12">
-        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Bảng Giá Mua Bản Quyền</h2>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Bảng Giá Mua Bản Quyền</h2>
         <p class="text-slate-500 mt-2">Đầu tư một lần — Làm ăn lâu dài</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+        <!-- Gói 1: Key App -->
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-between hover:border-blue-300 transition">
             <div>
-                <h3 class="text-xl font-bold text-slate-800">Key Bản Quyền Vĩnh Viễn</h3>
+                <h3 class="text-xl font-extrabold text-slate-800">Key Bản Quyền Vĩnh Viễn</h3>
                 <p class="text-slate-500 text-sm mt-1">Dành cho bạn đã có sẵn máy in hoặc chỉ cần quét QR</p>
                 <div class="my-6">
-                    <span class="text-3xl font-extrabold text-blue-600">399.000đ</span>
+                    <span class="text-4xl font-black text-blue-600">399.000đ</span>
                     <span class="text-slate-400 text-sm"> / vĩnh viễn</span>
                 </div>
-                <ul class="space-y-3 text-sm text-slate-600 mb-8">
-                    <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Kích hoạt bản quyền trọn đời theo máy</li>
-                    <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Không giới hạn số lượng món & đơn hàng</li>
-                    <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Hỗ trợ cài đặt từ xa qua Zalo/UltraView</li>
+                <ul class="space-y-3.5 text-sm text-slate-600 mb-8">
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Kích hoạt bản quyền trọn đời theo máy</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Không giới hạn số lượng món & đơn hàng</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Hỗ trợ cài đặt từ xa qua Zalo/UltraView</li>
                 </ul>
             </div>
-            <a href="#payment" onclick="selectPlan(399000, 'KEY')" class="w-full text-center bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-all block">
+            <a href="#payment" onclick="selectPlan(399000, 'KEY')" class="w-full text-center bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold py-4 rounded-xl transition-all block shadow-md">
                 Mua Key Bản Quyền
             </a>
         </div>
 
-        <div class="bg-white p-8 rounded-2xl shadow-md border-2 border-blue-600 flex flex-col justify-between relative overflow-hidden">
-            <div class="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded-bl-lg">
+        <!-- Gói 2: Combo -->
+        <div class="bg-white p-8 rounded-3xl shadow-xl border-2 border-blue-600 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-blue-600 text-white text-[11px] font-black px-4 py-1.5 rounded-bl-xl tracking-wider uppercase">
                 KHUYÊN DÙNG
             </div>
             <div>
-                <h3 class="text-xl font-bold text-slate-800">Combo Máy In + App</h3>
+                <h3 class="text-xl font-extrabold text-slate-800">Combo Máy In + App</h3>
                 <p class="text-slate-500 text-sm mt-1">Trọn gói về chỉ việc cắm điện là bán</p>
                 <div class="my-6">
-                    <span class="text-3xl font-extrabold text-blue-600">899.000đ</span>
+                    <span class="text-4xl font-black text-blue-600">899.000đ</span>
                     <span class="text-slate-400 text-sm"> / trọn bộ</span>
                 </div>
-                <ul class="space-y-3 text-sm text-slate-600 mb-8">
-                    <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> <strong>01 Máy in nhiệt Bluetooth mini</strong> (kèm sạc + giấy in)</li>
-                    <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> <strong>01 Key App bản quyền</strong> vĩnh viễn</li>
-                    <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Cài sẵn tên quán, menu theo yêu cầu</li>
-                    <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Bảo hành máy in 6 tháng (lỗi 1 đổi 1)</li>
+                <ul class="space-y-3.5 text-sm text-slate-600 mb-8">
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> <span><strong>01 Máy in nhiệt Bluetooth mini</strong> (kèm pin, sạc & giấy in)</span></li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> <span><strong>01 Key App bản quyền</strong> vĩnh viễn</span></li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Cài sẵn tên quán & menu mẫu theo yêu cầu</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Bảo hành máy in 6 tháng (lỗi 1 đổi 1)</li>
                 </ul>
             </div>
-            <a href="#payment" onclick="selectPlan(899000, 'COMBO')" class="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition-all block">
+            <a href="#payment" onclick="selectPlan(899000, 'COMBO')" class="w-full text-center bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-4 rounded-xl transition-all block shadow-lg shadow-blue-500/30">
                 Đặt Mua Trọn Gói Combo
             </a>
         </div>
@@ -480,115 +537,108 @@
 <!-- DOWNLOAD & THANH TOÁN -->
 <section id="download" class="bg-slate-900 text-white py-16 px-4">
     <div class="max-w-3xl mx-auto text-center" id="payment">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-4">Tải Cài Đặt & Kích Hoạt Ngay</h2>
-        <p class="text-slate-400 mb-8 text-sm sm:text-base">
+        <h2 class="text-2xl sm:text-3xl font-extrabold mb-4">Tải Cài Đặt & Kích Hoạt Ngay</h2>
+        <p class="text-slate-400 mb-8 text-sm sm:text-base max-w-xl mx-auto">
             Tải file APK về cài đặt trên điện thoại Android. Sau khi mở app, quét mã QR dưới đây để kích hoạt bản quyền nhanh chóng.
         </p>
 
         <div class="mb-10">
-            <!-- Dòng khoảng 360-365 -->
-            <div class="mb-10">
-                <a href=
-                "https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="inline-flex items-center gap-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 px-8 rounded-2xl shadow-xl transition-all text-lg">
-                  
+            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="inline-flex items-center gap-3 bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white font-black py-4 px-8 rounded-2xl shadow-xl shadow-emerald-500/20 transition-all text-base sm:text-lg">
                 <i class="fa-solid fa-download"></i> TẢI FILE CÀI ĐẶT (.APK)
-                </a>
-            </div>
+            </a>
         </div>
 
-<div class="bg-white text-slate-800 p-6 sm:p-8 rounded-2xl max-w-sm mx-auto shadow-2xl">
-    <h4 class="font-bold text-slate-900 mb-2">Thanh Toán Kích Hoạt</h4>
-    <p class="text-xs text-slate-500 mb-4">Chọn gói bạn muốn mua bên dưới:</p>
+        <div class="bg-white text-slate-800 p-6 sm:p-8 rounded-3xl max-w-sm mx-auto shadow-2xl">
+            <h4 class="font-extrabold text-slate-900 text-lg mb-1">Thanh Toán Kích Hoạt</h4>
+            <p class="text-xs text-slate-500 mb-4">Chọn gói bạn muốn mua bên dưới:</p>
 
-    <!-- 2 Nút chọn gói 299k hoặc 799k -->
-    <div class="grid grid-cols-2 gap-2 mb-4">
-        <button id="btnPlan299" onclick="selectPlan(399000, 'KEY')" class="border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold py-2 px-1 rounded-xl text-xs transition">
-            Key App<br><span class="text-sm">399.000đ</span>
-        </button>
-        <button id="btnPlan799" onclick="selectPlan(899000, 'COMBO')" class="border-2 border-slate-200 bg-white text-slate-600 font-bold py-2 px-1 rounded-xl text-xs transition hover:border-slate-300">
-            Combo Máy In<br><span class="text-sm">899.000đ</span>
-        </button>
-    </div>
+            <!-- 2 Nút chọn gói -->
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button id="btnPlanKey" onclick="selectPlan(399000, 'KEY')" class="border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold py-2.5 px-1 rounded-xl text-xs transition">
+                    Key App<br><span class="text-sm font-extrabold">399.000đ</span>
+                </button>
+                <button id="btnPlanCombo" onclick="selectPlan(899000, 'COMBO')" class="border-2 border-slate-200 bg-white text-slate-600 font-bold py-2.5 px-1 rounded-xl text-xs transition hover:border-slate-300">
+                    Combo Máy In<br><span class="text-sm font-extrabold">899.000đ</span>
+                </button>
+            </div>
 
-    <!-- Khung hiển thị ảnh QR -->
-    <div class="bg-slate-100 p-2 rounded-xl border border-slate-200 mb-4 inline-block">
-        <img id="mainQrImage" src="https://img.vietqr.io/image/BIDV-6110552461-compact2.png?amount=399000&addInfo=MUA%20KEY%20TRUM%20BAN%20HANG&accountName=NGUYEN%20VAN%20HEN" alt="VietQR" class="w-56 h-auto mx-auto rounded-lg">
-    </div>
+            <!-- Khung hiển thị ảnh QR -->
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 mb-4 inline-block">
+                <img id="mainQrImage" src="https://img.vietqr.io/image/BIDV-6110552461-compact2.png?amount=399000&addInfo=MUA%20KEY%20TRUM%20BAN%20HANG&accountName=NGUYEN%20VAN%20HEN" alt="VietQR" class="w-56 h-auto mx-auto rounded-lg">
+            </div>
 
-    <div class="text-xs text-left space-y-1.5 text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100">
-        <p><strong>Gói chọn:</strong> <span id="selectedPlanText" class="text-emerald-600 font-bold">Key Bản Quyền (399.000đ)</span></p>
-        <p><strong>Nội dung CK:</strong> <span id="ckContentText" class="text-blue-600 font-bold font-mono">MUA KEY TRUM BAN HANG</span></p>
-        <p><strong>Hỗ trợ Zalo:</strong> 0926.259.707</p>
-    </div>
-</div>
+            <div class="text-xs text-left space-y-2 text-slate-600 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                <p><strong>Gói chọn:</strong> <span id="selectedPlanText" class="text-emerald-600 font-bold">Key Bản Quyền (399.000đ)</span></p>
+                <p><strong>Nội dung CK:</strong> <span id="ckContentText" class="text-blue-600 font-bold font-mono">MUA KEY TRUM BAN HANG</span></p>
+                <p><strong>Hỗ trợ Zalo:</strong> <span class="font-bold text-slate-800">0942.764.008</span></p>
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- Footer -->
-
-
-<footer class="bg-slate-950 text-slate-500 py-8 text-center text-xs">
+<!-- Footer & Liên Hệ -->
+<footer class="bg-slate-950 text-slate-500 py-12 px-4 text-center text-xs">
     <!-- KHỐI LIÊN HỆ & HỖ TRỢ KỸ THUẬT -->
-<div class="max-w-4xl mx-auto my-12 p-6 sm:p-8 bg-slate-800/80 border border-slate-700 rounded-3xl text-center shadow-xl">
-    <h3 class="text-xl sm:text-2xl font-black text-white mb-2">Cần Hỗ Trợ Kích Hoạt Hoặc Mua Thiết Bị?</h3>
-    <p class="text-sm text-slate-400 mb-6">Liên hệ trực tiếp với chúng tôi để nhận Key kích hoạt trong 3 phút hoặc tư vấn combo máy in.</p>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <!-- Zalo -->
-        <a href="https://zalo.me/0942764008" target="_blank" class="flex items-center justify-center gap-3 p-4 bg-blue-600/20 border border-blue-500/30 rounded-2xl hover:bg-blue-600/30 transition text-blue-400 font-bold">
-            <i class="fa-solid fa-comment-dots text-xl"></i>
-            <span>Zalo: 0942.764.008</span>
-        </a>
+    <div id="contact" class="max-w-4xl mx-auto mb-10 p-6 sm:p-8 bg-slate-900 border border-slate-800 rounded-3xl text-center shadow-xl">
+        <h3 class="text-xl sm:text-2xl font-black text-white mb-2">Cần Hỗ Trợ Kích Hoạt Hoặc Mua Thiết Bị?</h3>
+        <p class="text-sm text-slate-400 mb-6">Liên hệ trực tiếp với chúng tôi để nhận Key kích hoạt trong 3 phút hoặc tư vấn combo máy in.</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <!-- Zalo -->
+            <a href="https://zalo.me/0942764008" target="_blank" class="flex items-center justify-center gap-3 p-4 bg-blue-600/10 border border-blue-500/30 rounded-2xl hover:bg-blue-600/20 transition text-blue-400 font-bold">
+                <i class="fa-solid fa-comment-dots text-xl"></i>
+                <span>Zalo: 0942.764.008</span>
+            </a>
 
-        <!-- Hotline / SĐT -->
-        <a href="tel:0926259707" class="flex items-center justify-center gap-3 p-4 bg-emerald-600/20 border border-emerald-500/30 rounded-2xl hover:bg-emerald-600/30 transition text-emerald-400 font-bold">
-            <i class="fa-solid fa-phone text-xl"></i>
-            <span>Hotline: 0926.259.707</span>
-        </a>
+            <!-- Hotline / SĐT -->
+            <a href="tel:0926259707" class="flex items-center justify-center gap-3 p-4 bg-emerald-600/10 border border-emerald-500/30 rounded-2xl hover:bg-emerald-600/20 transition text-emerald-400 font-bold">
+                <i class="fa-solid fa-phone text-xl"></i>
+                <span>Hotline: 0926.259.707</span>
+            </a>
 
-        <!-- Email -->
-        <a href="mailto:emailcuaban@gmail.com" class="flex items-center justify-center gap-3 p-4 bg-amber-600/20 border border-amber-500/30 rounded-2xl hover:bg-amber-600/30 transition text-amber-400 font-bold">
-            <i class="fa-solid fa-envelope text-xl"></i>
-            <span>Email: nguyenvanhen270182@gmail.com</span>
-        </a>
+            <!-- Email -->
+            <a href="mailto:nguyenvanhen270182@gmail.com" class="flex items-center justify-center gap-3 p-4 bg-amber-600/10 border border-amber-500/30 rounded-2xl hover:bg-amber-600/20 transition text-amber-400 font-bold">
+                <i class="fa-solid fa-envelope text-xl"></i>
+                <span class="truncate">nguyenvanhen270182@gmail.com</span>
+            </a>
+        </div>
     </div>
-</div>
-    <p>© 2026 Trùm Bán Hàng. Ứng dụng quản lý bán hàng & in hóa đơn POS đơn giản cho người Việt.</p>
+    <p>© 2026 TRÙM BÁN HÀNG. Ứng dụng quản lý bán hàng & in hóa đơn POS đơn giản cho người Việt.</p>
 </footer>
 
 <!-- LIGHTBOX XEM ẢNH PHÓNG TO -->
-<div id="lightboxModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
-    <img id="lightboxImg" class="max-w-[90%] max-h-[88vh] rounded-xl shadow-2xl" src="" alt="Ảnh phóng to">
+<div id="lightboxModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-[100] items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
+    <img id="lightboxImg" class="max-w-[90%] max-h-[88vh] rounded-2xl shadow-2xl object-contain" src="" alt="Ảnh phóng to">
 </div>
 
 <!-- POPUP MODAL VIETQR SIMULATOR -->
 <div id="qrModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[99] items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl">
+    <div class="bg-white rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl border border-slate-100">
         <h3 class="font-extrabold text-slate-900 text-lg">Quét Mã Thanh Toán VietQR</h3>
-        <div id="qrModalAmount" class="text-2xl font-extrabold text-rose-600 my-1.5">0 đ</div>
+        <div id="qrModalAmount" class="text-3xl font-black text-rose-600 my-2">0 đ</div>
         <div class="text-xs text-slate-500 mb-3" id="qrModalTableDesc">Nội dung: <strong>TT BAN 04</strong></div>
 
-        <div class="w-56 h-56 mx-auto mb-3 p-2 border-2 border-slate-200 rounded-2xl bg-white flex items-center justify-center">
+        <div class="w-56 h-56 mx-auto mb-3 p-2 border-2 border-slate-100 rounded-2xl bg-white flex items-center justify-center shadow-inner">
             <img id="realVietQRImage" src="" alt="Mã VietQR" class="w-full h-full object-contain">
         </div>
 
         <p class="text-[11px] text-slate-500 mb-4">
-            Mã chuẩn Napas 247. Hỗ trợ tất cả app ngân hàng tại Việt Nam.
+            Mã chuẩn Napas 247. Hỗ trợ tất cả app ngân hàng & ví điện tử tại Việt Nam.
         </p>
 
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs py-3 rounded-xl transition" onclick="closeModal('qrModal')">
-            <i class="fa-solid fa-check mr-1"></i> Đã Nhận Tiền / Đóng
+        <button class="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs py-3.5 rounded-xl transition shadow-md" onclick="closeModal('qrModal')">
+            <i class="fa-solid fa-check mr-1.5"></i> Hoàn Tất Thanh Toán
         </button>
     </div>
 </div>
 
 <!-- JAVASCRIPT XỬ LÝ SIMULATOR & LIGHTBOX -->
 <script>
-   const BANK_CONFIG = {
-    bankId: 'BIDV', // Dùng chữ BIDV thay vì số 970418
-    accountNo: '6110552461',
-    accountName: 'NGUYEN VAN HEN'
-};
+    const BANK_CONFIG = {
+        bankId: 'BIDV',
+        accountNo: '6110552461',
+        accountName: 'NGUYEN VAN HEN'
+    };
 
     const products = [
         { id: 1, name: 'Mì Xào Hải Sản', price: 99000, category: 'SEAFOOD', icon: 'fa-bowl-food' },
@@ -637,8 +687,8 @@
 
         if (currentOrder.length === 0) {
             container.innerHTML = `
-                <div class="text-center py-10 px-2 text-slate-400 text-xs">
-                    Bàn chưa có món nào.<br>Bấm <strong class="text-sky-600">+ CHỌN MÓN</strong> để thêm!
+                <div class="text-center py-12 px-2 text-slate-400 text-xs">
+                    Bàn chưa có món nào.<br>Bấm <strong class="text-sky-600 font-bold">+ CHỌN MÓN</strong> để thêm!
                 </div>
             `;
             totalText.innerText = '0 đ';
@@ -652,13 +702,13 @@
             const itemTotal = item.price * item.qty;
             total += itemTotal;
             html += `
-                <div class="bg-white border border-slate-200 rounded-xl p-2.5 mb-2 flex justify-between items-center text-xs">
+                <div class="bg-white border border-slate-200 rounded-xl p-2.5 mb-2 flex justify-between items-center text-xs shadow-2xs">
                     <div class="font-bold text-slate-800 max-w-[130px] truncate">${item.name}</div>
                     <div class="flex items-center gap-2">
-                        <span class="bg-blue-50 text-blue-600 border border-blue-200 px-2 py-0.5 rounded font-bold cursor-pointer hover:bg-blue-100" onclick="increaseQty(${item.id})">
+                        <span class="bg-blue-50 text-blue-600 border border-blue-200 px-2 py-0.5 rounded-md font-bold cursor-pointer hover:bg-blue-100 transition" onclick="increaseQty(${item.id})">
                             x${item.qty}
                         </span>
-                        <div class="font-bold text-emerald-600 w-16 text-right">
+                        <div class="font-extrabold text-emerald-600 w-16 text-right">
                             ${itemTotal.toLocaleString('vi-VN')} đ
                         </div>
                     </div>
@@ -675,10 +725,10 @@
         const filtered = (cat === 'ALL') ? products : products.filter(p => p.category === cat);
 
         grid.innerHTML = filtered.map(p => `
-            <div class="bg-white border border-slate-200 rounded-xl p-2.5 text-center cursor-pointer hover:border-blue-400 transition" onclick="addFoodToOrder(${p.id})">
-                <i class="fa-solid ${p.icon} text-xl text-blue-600 my-1"></i>
+            <div class="bg-white border border-slate-200 rounded-xl p-3 text-center cursor-pointer hover:border-blue-500 hover:shadow-sm transition" onclick="addFoodToOrder(${p.id})">
+                <i class="fa-solid ${p.icon} text-2xl text-blue-600 my-1.5"></i>
                 <div class="text-xs font-bold text-slate-800 truncate">${p.name}</div>
-                <div class="text-[11px] text-slate-500 mt-0.5">${p.price.toLocaleString('vi-VN')} đ</div>
+                <div class="text-[11px] font-semibold text-slate-500 mt-0.5">${p.price.toLocaleString('vi-VN')} đ</div>
             </div>
         `).join('');
     }
@@ -755,32 +805,32 @@
     }
 
     function selectPlan(amount, type) {
-    const btn299 = document.getElementById('btnPlan299');
-    const btn799 = document.getElementById('btnPlan799');
-    const qrImg = document.getElementById('mainQrImage');
-    const planText = document.getElementById('selectedPlanText');
-    const ckText = document.getElementById('ckContentText');
+        const btnKey = document.getElementById('btnPlanKey');
+        const btnCombo = document.getElementById('btnPlanCombo');
+        const qrImg = document.getElementById('mainQrImage');
+        const planText = document.getElementById('selectedPlanText');
+        const ckText = document.getElementById('ckContentText');
 
-    let memo = '';
-    if (type === 'KEY') {
-        memo = 'MUA KEY TRUM BAN HANG';
-        planText.innerText = 'Key Bản Quyền (299.000đ)';
-        ckText.innerText = memo;
+        let memo = '';
+        if (type === 'KEY') {
+            memo = 'MUA KEY TRUM BAN HANG';
+            planText.innerText = 'Key Bản Quyền (399.000đ)';
+            ckText.innerText = memo;
 
-        btn299.className = 'border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold py-2 px-1 rounded-xl text-xs transition';
-        btn799.className = 'border-2 border-slate-200 bg-white text-slate-600 font-bold py-2 px-1 rounded-xl text-xs transition hover:border-slate-300';
-    } else {
-        memo = 'MUA COMBO TRUM BAN HANG';
-        planText.innerText = 'Combo Máy In + App (899.000đ)';
-        ckText.innerText = memo;
+            btnKey.className = 'border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold py-2.5 px-1 rounded-xl text-xs transition';
+            btnCombo.className = 'border-2 border-slate-200 bg-white text-slate-600 font-bold py-2.5 px-1 rounded-xl text-xs transition hover:border-slate-300';
+        } else {
+            memo = 'MUA COMBO TRUM BAN HANG';
+            planText.innerText = 'Combo Máy In + App (899.000đ)';
+            ckText.innerText = memo;
 
-        btn799.className = 'border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold py-2 px-1 rounded-xl text-xs transition';
-        btn299.className = 'border-2 border-slate-200 bg-white text-slate-600 font-bold py-2 px-1 rounded-xl text-xs transition hover:border-slate-300';
+            btnCombo.className = 'border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold py-2.5 px-1 rounded-xl text-xs transition';
+            btnKey.className = 'border-2 border-slate-200 bg-white text-slate-600 font-bold py-2.5 px-1 rounded-xl text-xs transition hover:border-slate-300';
+        }
+
+        // Cập nhật link ảnh VietQR mới tương ứng với số tiền chính xác
+        qrImg.src = `https://img.vietqr.io/image/${BANK_CONFIG.bankId}-${BANK_CONFIG.accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(memo)}&accountName=${encodeURIComponent(BANK_CONFIG.accountName)}`;
     }
-
-    // Cập nhật link ảnh VietQR mới tương ứng
-    qrImg.src = `https://img.vietqr.io/image/${BANK_CONFIG.bankId}-${BANK_CONFIG.accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(memo)}&accountName=${encodeURIComponent(BANK_CONFIG.accountName)}`;
-}
 </script>
 
 </body>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Quản Lý & Cấp Key Trùm Bán Hàng</title>
+    <!-- Tailwind CSS & FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MD5 Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-4 selection:bg-emerald-500 selection:text-slate-950">
+
+    <div class="max-w-md w-full bg-slate-900 rounded-3xl p-6 border border-slate-800 shadow-2xl">
+        <!-- Header -->
+        <div class="flex items-center gap-3.5 mb-6 pb-4 border-b border-slate-800">
+            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-xl font-bold border border-emerald-500/20 shadow-inner">
+                <i class="fa-solid fa-key"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-black text-white tracking-wide">Trùm Bán Hàng</h1>
+                <p class="text-xs text-slate-400 font-medium">Bảng điều khiển tạo Key & VietQR 399k</p>
+            </div>
+        </div>
+
+        <!-- Nhập Device ID -->
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nhập Device ID của khách</label>
+                <div class="relative">
+                    <input type="text" id="deviceIdInput" placeholder="VD: 8A3F9B12" class="w-full bg-slate-950 border border-slate-700 focus:border-emerald-500 rounded-xl px-4 py-3.5 text-white font-mono uppercase text-lg focus:outline-none transition">
+                    <button onclick="pasteFromClipboard()" class="absolute right-2 top-2 bottom-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition">
+                        Dán
+                    </button>
+                </div>
+            </div>
+
+            <!-- Nút Tạo Key -->
+            <button onclick="generateKey()" class="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-xl transition flex items-center justify-center gap-2 text-base shadow-lg shadow-emerald-500/20 active:scale-[0.99]">
+                <i class="fa-solid fa-bolt"></i> TẠO KEY & TẠO MÃ VIETQR
+            </button>
+        </div>
+
+        <!-- Khu vực Kết quả & QR -->
+<!-- Khung Mã QR Thanh Toán BIDV 399k -->
+<div class="bg-slate-950 rounded-2xl p-4 border border-blue-500/30 text-center relative shadow-inner">
+    <p class="text-[11px] font-bold text-blue-400 uppercase tracking-wider mb-2">MÃ VIETQR THANH TOÁN (399.000đ)</p>
+    
+    <div class="flex justify-center bg-white p-3 rounded-xl max-w-[220px] mx-auto shadow-md">
+        <img id="vietQrImg" src="" alt="Mã VietQR" class="w-full h-auto rounded-lg">
+    </div>
+    
+    <p class="text-xs text-slate-400 mt-2">Nội dung CK: <span id="qrTransferContent" class="font-mono font-bold text-emerald-400">TRUM</span></p>
+
+    <!-- 2 NÚT THAO TÁC VỚI ẢNH QR -->
+    <div class="grid grid-cols-2 gap-2 mt-3">
+        <!-- Nút 1: Chia sẻ ảnh thẳng sang app Zalo (Mobile) -->
+        <button onclick="shareQrImage()" class="py-2 px-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 transition">
+            <i class="fa-solid fa-share-nodes"></i> Gửi Qua Zalo
+        </button>
+
+        <!-- Nút 2: Tải ảnh về máy -->
+        <button onclick="downloadQrImage()" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 border border-slate-700 transition">
+            <i class="fa-solid fa-download"></i> Tải Ảnh QR
+        </button>
+    </div>
+</div>
+
+            <!-- Khung Key Kích Hoạt -->
+            <div class="bg-slate-950 rounded-2xl p-4 border border-emerald-500/30 text-center relative shadow-inner">
+                <p class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-1">Mã Kích Hoạt Bản Quyền</p>
+                <div id="licenseKeyText" class="text-3xl font-black font-mono text-white tracking-widest my-1 select-all">
+                    ----
+                </div>
+                <button onclick="copyKeyOnly()" class="mt-1 text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition">
+                    <i class="fa-regular fa-copy"></i> Chỉ chép mã Key
+                </button>
+            </div>
+
+            <!-- NÚT 1: Copy Thông Tin Chuyển Khoản & Link QR -->
+            <button onclick="copyPaymentInfo()" class="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-sm flex items-center justify-center gap-2.5 transition shadow-lg shadow-blue-600/20 active:scale-[0.99]">
+                <i class="fa-solid fa-qrcode text-base"></i> 
+                <span>1. Copy Thông Tin CK + Link VietQR</span>
+            </button>
+
+            <!-- NÚT 2: Copy Xác Nhận Kèm Key Kích Hoạt -->
+            <button onclick="copyActivationTicket()" class="w-full py-3.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-400 font-bold rounded-xl text-sm flex items-center justify-center gap-2.5 transition active:scale-[0.99]">
+                <i class="fa-solid fa-ticket text-base"></i> 
+                <span>2. Copy Tin Nhắn Gửi Key Cho Khách</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Thông báo Toast -->
+    <div id="toast" class="fixed bottom-6 bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-sm shadow-2xl transition-all duration-300 opacity-0 pointer-events-none transform translate-y-2">
+        Đã sao chép!
+    </div>
+
+    <script>
+        // === CẤU HÌNH THANH TOÁN (BIDV & 399.000đ) ===
+        const BANK_ID = "BIDV";
+        const BANK_ACCOUNT_NUMBER = "6110552461"; // Thay số tài khoản BIDV của bạn
+        const BANK_ACCOUNT_HOLDER = "NGUYEN VAN HEN";  // Thay tên chủ tài khoản viết hoa không dấu
+        const AMOUNT = 399000;
+        const SECRET_SALT = "TRUM_POS_2026_PRO";
+
+        let currentKey = "";
+        let currentDeviceId = "";
+        let currentQrUrl = "";
+
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById('deviceIdInput').value = text.trim();
+                generateKey();
+            } catch (err) {
+                alert("Hãy chạm giữ vào ô và chọn Dán (Paste)");
+            }
+        }
+
+        function generateKey() {
+            let deviceId = document.getElementById('deviceIdInput').value.trim().toUpperCase();
+            if (!deviceId) {
+                alert("Vui lòng nhập Device ID của khách!");
+                return;
+            }
+
+            currentDeviceId = deviceId;
+            let hash = md5(deviceId + SECRET_SALT).toUpperCase();
+            let raw8 = hash.substring(0, 8);
+            currentKey = raw8.substring(0, 4) + "-" + raw8.substring(4, 8);
+
+            // Tạo link mã QR VietQR chuẩn tự động điền 399k và nội dung TRUM [Device_ID]
+            const memo = `TRUM ${currentDeviceId}`;
+            currentQrUrl = `https://img.vietqr.io/image/${BANK_ID}-${BANK_ACCOUNT_NUMBER}-compact2.png?amount=${AMOUNT}&addInfo=${encodeURIComponent(memo)}&accountName=${encodeURIComponent(BANK_ACCOUNT_HOLDER)}`;
+
+            document.getElementById('vietQrImg').src = currentQrUrl;
+            document.getElementById('qrTransferContent').innerText = memo;
+            document.getElementById('licenseKeyText').innerText = currentKey;
+            document.getElementById('resultBox').classList.remove('hidden');
+            showToast("Đã tạo Key & Mã VietQR 399k!");
+        }
+
+        // 1. Sao chép thông tin thanh toán kèm Link xem mã QR trực tiếp
+        function copyPaymentInfo() {
+            if (!currentDeviceId) return;
+            const text = 
+`Dạ cảm ơn anh/chị đã tin dùng Trùm Bán Hàng! 🎉
+📌 Thông tin thanh toán bản quyền vĩnh viễn:
+
+• Số tiền: 399.000đ (Mua 1 lần dùng trọn đời)
+• Ngân hàng: ${BANK_ID}
+• Số tài khoản: ${BANK_ACCOUNT_NUMBER}
+• Chủ tài khoản: ${BANK_ACCOUNT_HOLDER}
+• Nội dung chuyển khoản: TRUM ${currentDeviceId}
+
+👉 Quét mã QR thanh toán nhanh tại đây:
+${currentQrUrl}
+
+(Chuyển khoản xong anh/chị gửi em ảnh bill, em gửi lại Key kích hoạt mở khóa ngay trong 1 phút ạ!)`;
+
+            navigator.clipboard.writeText(text);
+            showToast("Đã copy thông tin thanh toán & link QR!");
+        }
+
+        // 2. Sao chép tin nhắn bàn giao Key
+        function copyActivationTicket() {
+            if (!currentKey) return;
+            const text = 
+`🎉 XÁC NHẬN KÍCH HOẠT BẢN QUYỀN TRÙM BÁN HÀNG
+
+📱 Mã máy (Device ID): ${currentDeviceId}
+💰 Trạng thái: ĐÃ THANH TOÁN (399.000đ)
+📅 Hạn dùng: VĨNH VIỄN (Trọn đời)
+
+🔑 MÃ KÍCH HOẠT CỦA BẠN:
+========================
+    👉 ${currentKey} 👈
+========================
+
+👉 Hướng dẫn: Mở app Trùm Bán Hàng -> Dán mã trên vào ô kích hoạt -> Bấm 'Kích hoạt vĩnh viễn'.
+
+Cảm ơn quý khách đã tin tưởng và đồng hành! Chúc quý quán luôn buôn may bán đắt! ❤️`;
+
+            navigator.clipboard.writeText(text);
+            showToast("Đã copy tin nhắn gửi Key!");
+        }
+
+        function copyKeyOnly() {
+            navigator.clipboard.writeText(currentKey);
+            showToast("Đã copy mã Key: " + currentKey);
+        }
+
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            toast.innerText = text;
+            toast.classList.remove('opacity-0', 'translate-y-2');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+            }, 2200);
+        }
+        // 1. Chia sẻ file ảnh trực tiếp qua Zalo (hoạt động trên Chrome/Safari điện thoại)
+async function shareQrImage() {
+    if (!currentQrUrl) return;
+    try {
+        const response = await fetch(currentQrUrl);
+        const blob = await response.blob();
+        const file = new File([blob], `VietQR_${currentDeviceId}.png`, { type: "image/png" });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+                title: "Mã VietQR Thanh Toán",
+                text: `Thanh toán bản quyền Trùm Bán Hàng (TRUM ${currentDeviceId})`,
+                files: [file]
+            });
+        } else {
+            // Nếu trình duyệt không hỗ trợ share file, mở ảnh sang tab mới để lưu
+            window.open(currentQrUrl, '_blank');
+        }
+    } catch (err) {
+        // Dự phòng khi bị chặn
+        window.open(currentQrUrl, '_blank');
+    }
+}
+
+// 2. Tải ảnh QR về máy
+async function downloadQrImage() {
+    if (!currentQrUrl) return;
+    try {
+        const response = await fetch(currentQrUrl);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `VietQR_TRUM_${currentDeviceId}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        showToast("Đã tải ảnh mã QR!");
+    } catch (e) {
+        window.open(currentQrUrl, '_blank');
+    }
+}
+    </script>
+</body>
+</html>

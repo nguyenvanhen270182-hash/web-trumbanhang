@@ -6,5 +6,18 @@ git push -u origin main
 sau khi chay xong chay 3 nay
 
 git add .
-git commit -m "noi dung sua tieu đề hình ảnh, kthuoc hinh"
+git commit -m "noi dung sua video to youtube"
 git push
+
+
+// nhung video vào you tube
+Bước 1: Tải video lên YouTube Studio
+Truy cập: studio.youtube.com (hoặc mở app YouTube trên điện thoại > bấm dấu + > Tải video lên).
+
+Tải video quay màn hình của bạn lên.
+
+Ở bước Chế độ hiển thị (Visibility), bạn chọn: Không công khai (Unlisted).
+
+Ý nghĩa: Người ngoài không tìm kiếm thấy video, chỉ ai có link hoặc xem qua website của bạn mới thấy được.
+
+Bấm Lưu / Xuất bản.

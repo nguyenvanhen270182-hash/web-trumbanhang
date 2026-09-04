@@ -19,11 +19,11 @@
             background: radial-gradient(circle at top right, #1d4ed8, #0f172a 80%); 
         }
         
-        /* Video Phone Frame (Khung điện thoại dựng dọc 9:16) */
+        /* Video Phone Frame (Khung điện thoại dựng dọc 9:18.5) */
         .video-phone-frame {
             width: 100%;
-            max-width: 320px;
-            aspect-ratio: 9 / 18.5;
+            max-width: 300px;
+            aspect-ratio: 1080 / 2316;
             background: #000;
             border-radius: 36px;
             border: 8px solid #1e293b;
@@ -31,18 +31,6 @@
             position: relative;
             overflow: hidden;
             margin: 0 auto;
-        }
-        .video-phone-frame::before {
-            content: '';
-            position: absolute;
-            top: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 12px;
-            background-color: #1e293b;
-            border-radius: 20px;
-            z-index: 40;
         }
 
         .gallery-card {
@@ -101,49 +89,38 @@
         }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        /* Tỉ lệ chuẩn 1080x2316 cho khung Video điện thoại */
-.video-phone-frame {
-    width: 100%;
-    max-width: 300px;
-    aspect-ratio: 1080 / 2316;
-    background: #000;
-    border-radius: 36px;
-    border: 8px solid #1e293b;
-    box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.35);
-    position: relative;
-    overflow: hidden;
-    margin: 0 auto;
-}
 
-/* Khung chứa ảnh trong Gallery */
-.gallery-img-container {
-    aspect-ratio: 1080 / 2316;
-    max-height: 480px;
-    background-color: #0f172a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-.card-img-mockup {
-    height: 620px; /* Tăng chiều cao để thấy trọn vẹn chân app */
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    background: #0f172a;
-}
-.card-img-mockup img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.gallery-card:hover .card-img-mockup img {
-    transform: scale(1.03);
-}
-
+        .card-img-mockup {
+            height: 540px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-img-mockup img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            object-position: center;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gallery-card:hover .card-img-mockup img {
+            transform: scale(1.03);
+        }
+        
+        .card-img-mockup.landscape {
+            height: auto;
+            aspect-ratio: 16 / 9;
+        }
+        .card-img-mockup.landscape img {
+            object-fit: cover;
+            object-position: center;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 scroll-smooth antialiased">
@@ -151,7 +128,6 @@
 <!-- Header Navigation -->
 <nav class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        
         <!-- Logo -->
         <a href="#" class="flex items-center gap-2 text-lg sm:text-xl font-black text-blue-600 tracking-tight hover:opacity-90 transition">
             <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center text-base sm:text-lg shadow-md shadow-blue-500/30">
@@ -160,7 +136,7 @@
             <span>TRÙM BÁN HÀNG</span>
         </a>
         
-        <!-- Menu trên Máy tính -->
+        <!-- Menu Desktop -->
         <div class="hidden md:flex items-center gap-6 text-sm font-bold text-slate-700">
             <a href="#features" class="hover:text-blue-600 transition">Tính Năng</a>
             <a href="#demo" class="hover:text-blue-600 transition">Mô Phỏng POS</a>
@@ -168,7 +144,7 @@
             <a href="#pricing" class="hover:text-blue-600 transition">Bảng Giá</a>
         </div>
         
-        <!-- Nhóm nút hành động bên phải -->
+        <!-- Right Actions -->
         <div class="flex items-center gap-2">
             <a href="#contact" class="inline-flex items-center gap-1.5 border border-blue-200 bg-blue-50/60 hover:bg-blue-100 hover:border-blue-400 text-blue-700 font-bold text-xs sm:text-sm px-3 py-2 rounded-xl transition">
                 <i class="fa-solid fa-headset text-blue-600"></i>
@@ -186,7 +162,7 @@
         </div>
     </div>
 
-    <!-- Menu xổ xuống trên Điện thoại -->
+    <!-- Mobile Menu -->
     <div id="mobileDropdown" class="hidden md:hidden bg-white border-t border-slate-100 px-5 py-4 space-y-3 shadow-lg">
         <a href="#features" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
             <i class="fa-solid fa-star text-blue-500 w-5"></i> Tính Năng
@@ -198,7 +174,7 @@
             <i class="fa-solid fa-images text-blue-500 w-5"></i> Video & Thao Tác
         </a>
         <a href="#pricing" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
-            <i class="fa-solid fa-tags text-blue-500 w-5"></i> Bảng Giá 399k
+            <i class="fa-solid fa-tags text-blue-500 w-5"></i> Bảng Giá 499k
         </a>
         <a href="#contact" onclick="toggleMobileNav()" class="block text-blue-600 font-bold text-sm py-1">
             <i class="fa-solid fa-headset text-blue-600 w-5"></i> Hỗ Trợ & Mua Key
@@ -218,8 +194,8 @@
         </h1>
         
         <p class="text-base sm:text-xl text-slate-200 mb-8 max-w-2xl mx-auto leading-relaxed font-normal">
-            Giải pháp chốt đơn, in bill Bluetooth & tạo mã VietQR tự động siêu tốc.<br class="hidden sm:inline">
-            <span class="text-amber-300 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-300/20 inline-block mt-2 sm:mt-1">Mua 1 lần dùng trọn đời — Sao lưu Google Drive an toàn!</span>
+            Giải pháp chốt đơn, in bill Bluetooth khổ 58mm & tạo mã VietQR tự động siêu tốc.<br class="hidden sm:inline">
+            <span class="text-amber-300 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-300/20 inline-block mt-2 sm:mt-1">Mua 1 lần dùng trọn đời — Tích hợp trợ lý AI thông báo thanh toán!</span>
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -266,19 +242,19 @@
             <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
                 <i class="fa-solid fa-print"></i>
             </div>
-            <h3 class="text-base font-bold text-slate-800 mb-2">In Bill Bluetooth</h3>
+            <h3 class="text-base font-bold text-slate-800 mb-2">In Bill Bluetooth K58</h3>
             <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                Kết nối không dây với máy in nhiệt mini cầm tay (58mm/80mm). Bấm thanh toán là máy nhả hóa đơn kèm QR siêu nhanh.
+                Kết nối không dây máy in nhiệt mini khổ 58mm/80mm tiện lợi. Bấm thanh toán là máy tự nhả bill tức thì.
             </p>
         </div>
 
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-amber-300 hover:shadow-md transition">
             <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4 font-bold">
-                <i class="fa-brands fa-google-drive"></i>
+                <i class="fa-solid fa-robot"></i>
             </div>
-            <h3 class="text-base font-bold text-slate-800 mb-2">Sao Lưu Google Drive</h3>
+            <h3 class="text-base font-bold text-slate-800 mb-2">AI Thông Báo Thanh Toán</h3>
             <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                Tự động đồng bộ cơ sở dữ liệu lên Google Drive cá nhân. Đổi máy hay mất máy đều khôi phục lại dữ liệu trong 3 giây.
+                Tích hợp trợ lý AI thông báo trạng thái thanh toán ngay trong app, hỗ trợ giọng nói thông minh và sao lưu Google Drive an toàn.
             </p>
         </div>
     </div>
@@ -418,7 +394,7 @@
     </div>
 </section>
 
-<!-- VIDEO DEMO THỰC TẾ (DẠNG PHONE MOCKUP DỰNG DỌC) -->
+<!-- VIDEO DEMO THỰC TẾ -->
 <section id="videos" class="py-16 px-4 max-w-5xl mx-auto">
     <div class="text-center mb-12">
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Video Hướng Dẫn Thao Tác</h2>
@@ -426,17 +402,47 @@
     </div>
 
     <!-- 2 Khung Video Dọc Chuẩn Khung Điện Thoại -->
-   <!-- 2 Khung Video Dọc Chuẩn Khung Điện Thoại -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16 justify-items-center">
-    <!-- Video 1 -->
-    <div class="w-full flex flex-col items-center">
-        <h3 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2 mb-3">
-            <i class="fa-solid fa-play-circle text-blue-600"></i> Luồng Chọn Bàn & In Hóa Đơn
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12 justify-items-center">
+        <div class="w-full flex flex-col items-center">
+            <h3 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-play-circle text-blue-600"></i> Luồng Chọn Bàn & In Hóa Đơn
+            </h3>
+            <div class="video-phone-frame overflow-hidden rounded-2xl shadow-lg border border-slate-200">
+                <iframe 
+                    src="https://www.youtube.com/embed/JlRYgnW0olA?rel=0&modestbranding=1"
+                    title="Luồng Chọn Bàn & In Hóa Đơn" 
+                    class="w-full h-full border-none"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <div class="w-full flex flex-col items-center">
+            <h3 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-pen-to-square text-blue-600"></i> Thêm & Chỉnh Sửa Menu Món Ăn
+            </h3>
+            <div class="video-phone-frame overflow-hidden rounded-2xl shadow-lg border border-slate-200">
+                <iframe 
+                    src="https://www.youtube.com/embed/JlRYgnW0olA?rel=0&modestbranding=1"
+                    title="Thêm & Chỉnh Sửa Menu Món Ăn" 
+                    class="w-full h-full border-none"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video 3: Màn hình rộng chuẩn máy tính (Tỷ lệ 16:9) -->
+    <div class="w-full max-w-4xl mx-auto flex flex-col items-center mb-16 px-4">
+        <h3 class="font-extrabold text-slate-800 text-base sm:text-lg flex items-center gap-2 mb-4">
+            <i class="fa-solid fa-desktop text-blue-600"></i> Video Giới Thiệu Tổng Quan & Tính Năng Nâng Cao
         </h3>
-        <div class="video-phone-frame overflow-hidden rounded-2xl shadow-lg border border-slate-200">
+        <div class="w-full aspect-video overflow-hidden rounded-2xl shadow-xl border border-slate-200 bg-black">
             <iframe 
                 src="https://www.youtube.com/embed/JlRYgnW0olA?rel=0&modestbranding=1"
-                title="Luồng Chọn Bàn & In Hóa Đơn" 
+                title="Video Giới Thiệu Bản Máy Tính" 
                 class="w-full h-full border-none"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowfullscreen>
@@ -444,29 +450,13 @@
         </div>
     </div>
 
-    <!-- Video 2 -->
-    <div class="w-full flex flex-col items-center">
-        <h3 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2 mb-3">
-            <i class="fa-solid fa-pen-to-square text-blue-600"></i> Thêm & Chỉnh Sửa Menu Món Ăn
-        </h3>
-        <div class="video-phone-frame overflow-hidden rounded-2xl shadow-lg border border-slate-200">
-            <!-- Khi bạn tải xong video 2 thì thay ID tương tự vào đây -->
-            <iframe 
-                src="https://www.youtube.com/embed/JlRYgnW0olA?rel=0&modestbranding=1"
-                title="Thêm & Chỉnh Sửa Menu Món Ăn" 
-                class="w-full h-full border-none"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-            </iframe>
-        </div>
-    </div>
-</div>
     <!-- Gallery Ảnh App Thực Tế -->
     <div class="text-center mb-8">
         <h3 class="text-xl font-bold text-slate-900">Giao Diện Màn Hình Ứng Dụng</h3>
         <p class="text-slate-500 text-xs mt-1">Bấm vào từng ảnh để phóng to chi tiết</p>
     </div>
-<!-- Gallery 9 Ảnh Chuẩn Lưới 3x3 Cân Đối -->
+
+    <!-- Gallery 9 Ảnh Chuẩn Lưới 3x3 Cân Đối -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-16 justify-items-center">
         
         <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
@@ -476,7 +466,7 @@
             </div>
             <div class="p-5 border-t border-slate-200 flex-1 bg-white">
                 <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Thiết Lập Cửa Hàng</h4>
-                <p class="text-slate-500 text-xs leading-relaxed">Cấu hình máy in Bluetooth, thông tin quán và tài khoản nhận VietQR Napas.</p>
+                <p class="text-slate-500 text-xs leading-relaxed">Cấu hình máy in Bluetooth khổ K58, thông tin quán và tài khoản nhận VietQR Napas.</p>
             </div>
         </div>
 
@@ -569,6 +559,7 @@
         </div>
 
     </div>
+</section>
 
 <!-- BẢNG SO SÁNH -->
 <section class="bg-slate-100 py-16 px-4">
@@ -615,17 +606,18 @@
                 <h3 class="text-xl font-extrabold text-slate-800">Key Bản Quyền Vĩnh Viễn</h3>
                 <p class="text-slate-500 text-sm mt-1">Dành cho bạn đã có sẵn máy in hoặc chỉ cần quét QR</p>
                 <div class="my-6">
-                    <span class="text-4xl font-black text-blue-600">399.000đ</span>
+                    <span class="text-4xl font-black text-blue-600">499.000đ</span>
                     <span class="text-slate-400 text-sm"> / vĩnh viễn</span>
                 </div>
                 <ul class="space-y-3.5 text-sm text-slate-600 mb-8">
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Kích hoạt bản quyền trọn đời theo máy</li>
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Không giới hạn số lượng món & đơn hàng</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Tích hợp trợ lý AI thông báo thanh toán trong app</li>
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Tích hợp sao lưu Google Drive vĩnh viễn</li>
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Hỗ trợ cài đặt từ xa qua Zalo/UltraView</li>
                 </ul>
             </div>
-            <a href="#payment" onclick="selectPlan(399000, 'KEY')" class="w-full text-center bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold py-4 rounded-xl transition-all block shadow-md">
+            <a href="#payment" onclick="selectPlan(499000, 'KEY')" class="w-full text-center bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold py-4 rounded-xl transition-all block shadow-md">
                 Mua Key Bản Quyền
             </a>
         </div>
@@ -636,14 +628,14 @@
                 KHUYÊN DÙNG
             </div>
             <div>
-                <h3 class="text-xl font-extrabold text-slate-800">Combo Máy In + App</h3>
-                <p class="text-slate-500 text-sm mt-1">Trọn gói về chỉ việc cắm điện là bán</p>
+                <h3 class="text-xl font-extrabold text-slate-800">Combo Máy In K58 + App</h3>
+                <p class="text-slate-500 text-sm mt-1">Trọn gói về chỉ việc bật nguồn là bán</p>
                 <div class="my-6">
                     <span class="text-4xl font-black text-blue-600">899.000đ</span>
                     <span class="text-slate-400 text-sm"> / trọn bộ</span>
                 </div>
                 <ul class="space-y-3.5 text-sm text-slate-600 mb-8">
-                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> <span><strong>01 Máy in nhiệt Bluetooth mini</strong> (kèm pin, sạc & giấy in)</span></li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> <span><strong>01 Máy in nhiệt Bluetooth mini khổ K58</strong> (kèm pin, sạc & giấy in)</span></li>
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> <span><strong>01 Key App bản quyền</strong> trọn đời</span></li>
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Cài sẵn tên quán & menu mẫu theo yêu cầu</li>
                     <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-2.5"></i> Bảo hành máy in 6 tháng (lỗi 1 đổi 1)</li>
@@ -675,8 +667,8 @@
             <p class="text-xs text-slate-500 mb-4">Chọn gói bạn muốn mua bên dưới:</p>
 
             <div class="grid grid-cols-2 gap-2 mb-4">
-                <button id="btnPlanKey" onclick="selectPlan(399000, 'KEY')" class="border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold py-2.5 px-1 rounded-xl text-xs transition">
-                    Key App<br><span class="text-sm font-extrabold">399.000đ</span>
+                <button id="btnPlanKey" onclick="selectPlan(499000, 'KEY')" class="border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold py-2.5 px-1 rounded-xl text-xs transition">
+                    Key App<br><span class="text-sm font-extrabold">499.000đ</span>
                 </button>
                 <button id="btnPlanCombo" onclick="selectPlan(899000, 'COMBO')" class="border-2 border-slate-200 bg-white text-slate-600 font-bold py-2.5 px-1 rounded-xl text-xs transition hover:border-slate-300">
                     Combo Máy In<br><span class="text-sm font-extrabold">899.000đ</span>
@@ -684,11 +676,11 @@
             </div>
 
             <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 mb-4 inline-block">
-                <img id="mainQrImage" src="https://img.vietqr.io/image/BIDV-6110552461-compact2.png?amount=399000&addInfo=MUA%20KEY%20TRUM%20BAN%20HANG&accountName=NGUYEN%20VAN%20HEN" alt="VietQR" class="w-56 h-auto mx-auto rounded-lg">
+                <img id="mainQrImage" src="https://img.vietqr.io/image/BIDV-6110552461-compact2.png?amount=499000&addInfo=MUA%20KEY%20TRUM%20BAN%20HANG&accountName=NGUYEN%20VAN%20HEN" alt="VietQR" class="w-56 h-auto mx-auto rounded-lg">
             </div>
 
             <div class="text-xs text-left space-y-2 text-slate-600 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
-                <p><strong>Gói chọn:</strong> <span id="selectedPlanText" class="text-emerald-600 font-bold">Key Bản Quyền (399.000đ)</span></p>
+                <p><strong>Gói chọn:</strong> <span id="selectedPlanText" class="text-emerald-600 font-bold">Key Bản Quyền (499.000đ)</span></p>
                 <p><strong>Nội dung CK:</strong> <span id="ckContentText" class="text-blue-600 font-bold font-mono">MUA KEY TRUM BAN HANG</span></p>
                 <p><strong>Hỗ trợ Zalo:</strong> <span class="font-bold text-slate-800">0942.764.008</span></p>
             </div>
@@ -930,7 +922,7 @@
         let memo = '';
         if (type === 'KEY') {
             memo = 'MUA KEY TRUM BAN HANG';
-            planText.innerText = 'Key Bản Quyền (399.000đ)';
+            planText.innerText = 'Key Bản Quyền (499.000đ)';
             ckText.innerText = memo;
 
             btnKey.className = 'border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold py-2.5 px-1 rounded-xl text-xs transition';

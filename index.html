@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trùm Bán Hàng - App Tính Tiền & In Bill Bluetooth Siêu Tốc</title>
-    <meta name="description" content="Trùm Bán Hàng - Giải pháp chốt đơn, in bill Bluetooth & tạo mã VietQR tự động siêu tốc. Bán Offline 100%, đồng bộ Google Drive, mua 1 lần dùng trọn đời.">
+    <meta name="description" content="Trùm Bán Hàng - Giải pháp chốt đơn, in bill Bluetooth & tạo mã VietQR tự động siêu tốc. Bán Offline 100%, đồng bộ Google Drive, mua 1 lần dùng trọn đời. Dùng thử miễn phí 20 ngày.">
     
     <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,7 +19,7 @@
             background: radial-gradient(circle at top right, #1d4ed8, #0f172a 80%); 
         }
         
-        /* Video Phone Frame (Khung điện thoại dựng dọc 9:18.5) */
+        /* Video Phone Frame (Khung điện thoại dọc 9:18.5) */
         .video-phone-frame {
             width: 100%;
             max-width: 300px;
@@ -112,21 +112,44 @@
         .gallery-card:hover .card-img-mockup img {
             transform: scale(1.03);
         }
-        
-        .card-img-mockup.landscape {
-            height: auto;
-            aspect-ratio: 16 / 9;
+
+        /* Nút Ghim Nổi (Floating Action Button) */
+        .pinned-tester-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 60;
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+            animation: pulse-glow 2.5s infinite;
         }
-        .card-img-mockup.landscape img {
-            object-fit: cover;
-            object-position: center;
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 scroll-smooth antialiased">
+<body class="bg-slate-50 text-slate-800 scroll-smooth antialiased pb-12">
+
+<!-- THANH GHIM THÔNG BÁO DÙNG THỬ TRÊN CÙNG -->
+<div class="bg-emerald-600 text-white text-xs sm:text-sm font-bold py-2.5 px-4 text-center sticky top-0 z-50 shadow-md flex items-center justify-center gap-2">
+    <span class="bg-white/20 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase">Ưu Đãi Trải Nghiệm</span>
+    <span>Dùng thử app trọn vẹn <strong>20 ngày miễn phí</strong> từ Google Play:</span>
+    <a href="#chplay-guide" class="underline hover:text-emerald-100 flex items-center gap-1 font-extrabold ml-1">
+        Xem 3 Bước Tải <i class="fa-solid fa-arrow-down text-xs"></i>
+    </a>
+</div>
+
+<!-- NÚT GHIM NỔI GÓC PHẢI MÀN HÌNH -->
+<a href="#chplay-guide" class="pinned-tester-btn bg-slate-900 hover:bg-black text-white border border-emerald-500 font-extrabold text-xs sm:text-sm px-4 py-3 rounded-2xl flex items-center gap-2.5 transition">
+    <i class="fa-brands fa-google-play text-emerald-400 text-xl"></i>
+    <div class="text-left">
+        <div class="text-[9px] text-emerald-400 uppercase tracking-wide font-black">Miễn phí 20 ngày</div>
+        <div>Tải từ CH Play</div>
+    </div>
+</a>
 
 <!-- Header Navigation -->
-<nav class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm">
+<nav class="bg-white/95 backdrop-blur-md sticky top-[39px] z-40 border-b border-slate-200 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <!-- Logo -->
         <a href="#" class="flex items-center gap-2 text-lg sm:text-xl font-black text-blue-600 tracking-tight hover:opacity-90 transition">
@@ -138,20 +161,23 @@
         
         <!-- Menu Desktop -->
         <div class="hidden md:flex items-center gap-6 text-sm font-bold text-slate-700">
+            <a href="#chplay-guide" class="hover:text-blue-600 text-emerald-600 font-extrabold transition flex items-center gap-1.5">
+                <i class="fa-brands fa-google-play text-emerald-500"></i> Tải CH Play (20 Ngày)
+            </a>
             <a href="#features" class="hover:text-blue-600 transition">Tính Năng</a>
             <a href="#demo" class="hover:text-blue-600 transition">Mô Phỏng POS</a>
-            <a href="#videos" class="hover:text-blue-600 transition">Video & Thao Tác</a>
+            <a href="#videos" class="hover:text-blue-600 transition">Video Thao Tác</a>
             <a href="#pricing" class="hover:text-blue-600 transition">Bảng Giá</a>
         </div>
         
         <!-- Right Actions -->
         <div class="flex items-center gap-2">
-            <a href="#contact" class="inline-flex items-center gap-1.5 border border-blue-200 bg-blue-50/60 hover:bg-blue-100 hover:border-blue-400 text-blue-700 font-bold text-xs sm:text-sm px-3 py-2 rounded-xl transition">
-                <i class="fa-solid fa-headset text-blue-600"></i>
-                <span>Liên Hệ</span>
+            <a href="#chplay-guide" class="bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-md transition flex items-center gap-1.5 border border-slate-700">
+                <i class="fa-brands fa-google-play text-emerald-400 text-sm sm:text-base"></i>
+                <span>Tải CH Play</span>
             </a>
 
-            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5">
+            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="hidden sm:flex bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-md shadow-emerald-600/20 transition items-center gap-1.5">
                 <i class="fa-brands fa-android text-sm sm:text-base"></i>
                 <span>Tải APK</span>
             </a>
@@ -164,6 +190,9 @@
 
     <!-- Mobile Menu -->
     <div id="mobileDropdown" class="hidden md:hidden bg-white border-t border-slate-100 px-5 py-4 space-y-3 shadow-lg">
+        <a href="#chplay-guide" onclick="toggleMobileNav()" class="block text-emerald-600 font-extrabold text-sm py-1">
+            <i class="fa-brands fa-google-play text-emerald-500 w-5"></i> Tải Từ Google Play (Dùng Thử 20 Ngày)
+        </a>
         <a href="#features" onclick="toggleMobileNav()" class="block text-slate-700 font-bold text-sm hover:text-blue-600 py-1">
             <i class="fa-solid fa-star text-blue-500 w-5"></i> Tính Năng
         </a>
@@ -195,22 +224,101 @@
         
         <p class="text-base sm:text-xl text-slate-200 mb-8 max-w-2xl mx-auto leading-relaxed font-normal">
             Giải pháp chốt đơn, in bill Bluetooth khổ 58mm & tạo mã VietQR tự động siêu tốc.<br class="hidden sm:inline">
-            <span class="text-amber-300 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-300/20 inline-block mt-2 sm:mt-1">Mua 1 lần dùng trọn đời — Tích hợp trợ lý AI thông báo thanh toán!</span>
+            <span class="text-amber-300 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-300/20 inline-block mt-2 sm:mt-1">Mua 1 lần dùng trọn đời — Trải nghiệm full tính năng 20 ngày miễn phí!</span>
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white font-black py-4 px-8 rounded-2xl shadow-xl shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
-                <i class="fa-brands fa-android text-2xl"></i>
-                <span>TẢI DÙNG THỬ 7 NGÀY (APK)</span>
+            <a href="#chplay-guide" class="w-full sm:w-auto bg-white hover:bg-slate-100 active:scale-95 text-slate-900 font-black py-4 px-8 rounded-2xl shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                <i class="fa-brands fa-google-play text-2xl text-emerald-500"></i>
+                <span>DÙNG THỬ 20 NGÀY (GOOGLE PLAY)</span>
             </a>
-            <a href="#demo" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 active:scale-95 text-white font-bold py-4 px-8 rounded-2xl border border-white/20 backdrop-blur-md transition-all flex items-center justify-center gap-2">
-                <i class="fa-solid fa-play text-xs"></i> Dùng Thử Trực Tiếp Trên Web
+            
+            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="w-full sm:w-auto bg-emerald-500/20 hover:bg-emerald-500/30 active:scale-95 text-emerald-300 border border-emerald-400/40 font-bold py-4 px-8 rounded-2xl backdrop-blur-md transition-all flex items-center justify-center gap-2">
+                <i class="fa-brands fa-android text-lg"></i> Cài Nhanh File .APK
             </a>
         </div>
     </div>
 </header>
 
-<!-- Tính Năng Nổi Bật -->
+<!-- SECTION 3 BƯỚC TESTER TẢI APP TỪ GOOGLE PLAY -->
+<section id="chplay-guide" class="py-16 px-4 bg-slate-100 border-b border-slate-200 scroll-mt-24">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-10">
+            <span class="bg-emerald-100 text-emerald-800 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider">
+                <i class="fa-brands fa-google-play text-emerald-600 mr-1"></i> Trải nghiệm miễn phí 20 ngày
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-3">3 Bước Tải App Từ Google Play</h2>
+            <p class="text-slate-600 mt-2 text-sm sm:text-base max-w-2xl mx-auto">
+                App đang chạy giai đoạn thử nghiệm chính thức của Google Play. Bạn chỉ cần thực hiện 3 bước đơn giản dưới đây để tải về dùng thử miễn phí 20 ngày:
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Bước 1 -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-300 transition">
+                <div>
+                    <div class="w-10 h-10 rounded-2xl bg-blue-600 text-white font-black flex items-center justify-center mb-4 text-base shadow-md shadow-blue-500/20">
+                        1
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-2">Vào Nhóm Tester</h3>
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                        Dùng đúng tài khoản Google trên điện thoại của bạn, bấm nút bên dưới và chọn <strong>"Tham gia nhóm" (Join group)</strong>.
+                    </p>
+                </div>
+                <a href="https://groups.google.com/g/trumbanhang-testers" target="_blank" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl text-center flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 transition">
+                    <i class="fa-solid fa-users"></i>
+                    <span>1. Tham Gia Nhóm</span>
+                </a>
+            </div>
+
+            <!-- Bước 2 -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-amber-300 transition">
+                <div>
+                    <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white font-black flex items-center justify-center mb-4 text-base shadow-md shadow-amber-500/20">
+                        2
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-2">Kích Hoạt Tài Khoản</h3>
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                        Mở liên kết kích hoạt bằng trình duyệt Chrome, bấm nút <strong>"Become a tester"</strong> (hoặc <strong>Tham gia thử nghiệm</strong>).
+                    </p>
+                </div>
+                <a href="https://play.google.com/apps/testing/com.hennguyen.trumbanhang" target="_blank" class="w-full bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl text-center flex items-center justify-center gap-2 shadow-md shadow-amber-500/20 transition">
+                    <i class="fa-solid fa-key"></i>
+                    <span>2. Bấm Kích Hoạt</span>
+                </a>
+            </div>
+
+            <!-- Bước 3 -->
+            <div class="bg-white p-6 rounded-3xl border-2 border-emerald-500 shadow-lg flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-xl uppercase">
+                    20 NGÀY FREE
+                </div>
+                <div>
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white font-black flex items-center justify-center mb-4 text-base shadow-md shadow-emerald-500/20">
+                        3
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-2">Cài Đặt & Trải Nghiệm</h3>
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                        Mở liên kết này để tới Google Play Store, bấm <strong>Cài đặt</strong> và mở app sử dụng đầy đủ mọi tính năng trong 20 ngày.
+                    </p>
+                </div>
+                <a href="https://play.google.com/store/apps/details?id=com.hennguyen.trumbanhang" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-black text-xs sm:text-sm py-3 px-4 rounded-xl text-center flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 transition">
+                    <i class="fa-brands fa-google-play"></i>
+                    <span>3. Tải Về Trên CH Play</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-start gap-3 text-amber-900 text-xs sm:text-sm">
+            <i class="fa-solid fa-circle-info text-amber-600 text-lg mt-0.5 shrink-0"></i>
+            <div>
+                <strong>Lưu ý:</strong> Cần hoàn thành <strong>Bước 1</strong> và <strong>Bước 2</strong> trước thì link ở <strong>Bước 3</strong> mới mở được trên Google Play. Nếu bạn muốn cài app ngay lập tức mà không cần qua các bước duyệt nhóm, bạn có thể tải thẳng <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="underline font-bold text-blue-700 hover:text-blue-800">File APK trực tiếp</a> về máy.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TÍNH NĂNG NỔI BẬT -->
 <section id="features" class="py-16 px-4 max-w-6xl mx-auto">
     <div class="text-center mb-12">
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Tại sao nên chọn Trùm Bán Hàng?</h2>
@@ -373,7 +481,7 @@
                 </div>
             </div>
 
-            <!-- Khối thông tin bên cạnh mô phỏng -->
+            <!-- Khối thông tin QR bên cạnh mô phỏng -->
             <div class="max-w-md space-y-4">
                 <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm">
                     <h3 class="text-lg font-black text-slate-900 flex items-center gap-2 mb-2">
@@ -394,18 +502,18 @@
     </div>
 </section>
 
-<!-- VIDEO DEMO THỰC TẾ -->
+<!-- VIDEO DEMO THỰC TẾ (CẢ 3 KHUNG VIDEO ĐÃ ĐƯỢC GIỮ ĐỦ) -->
 <section id="videos" class="py-16 px-4 max-w-5xl mx-auto">
     <div class="text-center mb-12">
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Video Hướng Dẫn Thao Tác</h2>
-        <p class="text-slate-500 mt-2 text-sm sm:text-base">Xem cận cảnh luồng chọn bàn, gọi món và quản lý thực đơn ngay trên màn hình điện thoại</p>
+        <p class="text-slate-500 mt-2 text-sm sm:text-base">Xem cận cảnh luồng chọn bàn, gọi món và quản lý thực đơn ngay trên màn hình</p>
     </div>
 
-    <!-- 2 Khung Video Dọc Chuẩn Khung Điện Thoại -->
+    <!-- 2 Khung Video Dọc Chuẩn Khung Điện Thoại (để sẵn sau này đưa 2 video ghi màn hình điện thoại vô) -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12 justify-items-center">
         <div class="w-full flex flex-col items-center">
             <h3 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2 mb-3">
-                <i class="fa-solid fa-play-circle text-blue-600"></i> Luồng Chọn Bàn & In Hóa Đơn
+                <i class="fa-solid fa-play-circle text-blue-600"></i> Video 1: Luồng Chọn Bàn & In Hóa Đơn
             </h3>
             <div class="video-phone-frame overflow-hidden rounded-2xl shadow-lg border border-slate-200">
                 <iframe 
@@ -420,7 +528,7 @@
 
         <div class="w-full flex flex-col items-center">
             <h3 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2 mb-3">
-                <i class="fa-solid fa-pen-to-square text-blue-600"></i> Thêm & Chỉnh Sửa Menu Món Ăn
+                <i class="fa-solid fa-pen-to-square text-blue-600"></i> Video 2: Thêm & Chỉnh Sửa Menu Món Ăn
             </h3>
             <div class="video-phone-frame overflow-hidden rounded-2xl shadow-lg border border-slate-200">
                 <iframe 
@@ -434,15 +542,15 @@
         </div>
     </div>
 
-    <!-- Video 3: Màn hình rộng chuẩn máy tính (Tỷ lệ 16:9) -->
+    <!-- Video To 3: Video ngang tỷ lệ 16:9 quay từ Laptop -->
     <div class="w-full max-w-4xl mx-auto flex flex-col items-center mb-16 px-4">
         <h3 class="font-extrabold text-slate-800 text-base sm:text-lg flex items-center gap-2 mb-4">
-            <i class="fa-solid fa-desktop text-blue-600"></i> Video Giới Thiệu Tổng Quan & Tính Năng Nâng Cao
+            <i class="fa-solid fa-desktop text-blue-600"></i> Video 3: Giới Thiệu Tổng Quan & Vận Hành Thực Tế
         </h3>
         <div class="w-full aspect-video overflow-hidden rounded-2xl shadow-xl border border-slate-200 bg-black">
             <iframe 
-                src="https://www.youtube.com/embed/JlRYgnW0olA?rel=0&modestbranding=1"
-                title="Video Giới Thiệu Bản Máy Tính" 
+                src="https://www.youtube.com/embed/JlRYgnW0olA?rel=0&modestbranding=1" 
+                title="Video Giới Thiệu Tổng Quan" 
                 class="w-full h-full border-none"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowfullscreen>
@@ -450,15 +558,13 @@
         </div>
     </div>
 
-    <!-- Gallery Ảnh App Thực Tế -->
+    <!-- Gallery 9 Ảnh Chuẩn Lưới 3x3 -->
     <div class="text-center mb-8">
         <h3 class="text-xl font-bold text-slate-900">Giao Diện Màn Hình Ứng Dụng</h3>
         <p class="text-slate-500 text-xs mt-1">Bấm vào từng ảnh để phóng to chi tiết</p>
     </div>
 
-    <!-- Gallery 9 Ảnh Chuẩn Lưới 3x3 Cân Đối -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-16 justify-items-center">
-        
         <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
             <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG')">
                 <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">1. Cấu Hình</span>
@@ -536,28 +642,28 @@
             </div>
         </div>
 
+<!-- Thẻ Số 8: Đồng Bộ Drive Đã Cập Nhật Ảnh Mới -->
         <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
-            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG')">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1ZaW5MSUWvJ3E-Ml2AwwQN6pTUSFUg1mZ')">
                 <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">8. Đồng Bộ Drive</span>
-                <img src="https://lh3.googleusercontent.com/d/1Xnmi6YGqLXaNJXGqf1rgDg8VRxE7kDLG" alt="Sao lưu Google Drive" loading="lazy">
+                <img src="https://lh3.googleusercontent.com/d/1ZaW5MSUWvJ3E-Ml2AwwQN6pTUSFUg1mZ" alt="Sao lưu Google Drive" loading="lazy">
             </div>
             <div class="p-5 border-t border-slate-200 flex-1 bg-white">
                 <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Sao Lưu & Khôi Phục</h4>
                 <p class="text-slate-500 text-xs leading-relaxed">Đồng bộ dữ liệu an toàn lên Google Drive. Đổi máy hay mất máy đều tải lại dữ liệu trong 3 giây.</p>
             </div>
         </div>
-
+<!-- https://drive.google.com/file/d/1HPAZTCLIKqet5FI_14U8SoRDmlTapfJH/view?usp=drive_link -->
         <div class="gallery-card bg-white border border-slate-200 rounded-3xl overflow-hidden flex flex-col shadow-sm">
-            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4')">
+            <div class="card-img-mockup cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1HPAZTCLIKqet5FI_14U8SoRDmlTapfJH')">
                 <span class="absolute top-3 left-3 bg-slate-900/85 text-white px-3 py-1 rounded-lg text-xs font-extrabold border border-white/20 z-10">9. Lịch Sử & Doanh Thu</span>
-                <img src="https://lh3.googleusercontent.com/d/1krPfihoto4MXIiEO_IhOMckGYxgExKz4" alt="Quản lý lịch sử hóa đơn" loading="lazy">
+                <img src="https://lh3.googleusercontent.com/d/1HPAZTCLIKqet5FI_14U8SoRDmlTapfJH" alt="Quản lý lịch sử hóa đơn" loading="lazy">
             </div>
             <div class="p-5 border-t border-slate-200 flex-1 bg-white">
                 <h4 class="font-extrabold text-slate-900 text-sm mb-1.5">Lịch Sử & Thống Kê</h4>
                 <p class="text-slate-500 text-xs leading-relaxed">Tra cứu chi tiết các đơn đã bán trong ngày, tổng hợp doanh thu tiền mặt và chuyển khoản dễ dàng.</p>
             </div>
         </div>
-
     </div>
 </section>
 
@@ -596,7 +702,7 @@
 <section id="pricing" class="py-16 px-4 max-w-5xl mx-auto">
     <div class="text-center mb-12">
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Bảng Giá Mua Bản Quyền</h2>
-        <p class="text-slate-500 mt-2">Đầu tư một lần — Làm ăn lâu dài</p>
+        <p class="text-slate-500 mt-2">Dùng thử 20 ngày miễn phí — Thấy tiện mới mua</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
@@ -651,14 +757,20 @@
 <!-- DOWNLOAD & THANH TOÁN -->
 <section id="download" class="bg-slate-900 text-white py-16 px-4">
     <div class="max-w-3xl mx-auto text-center" id="payment">
-        <h2 class="text-2xl sm:text-3xl font-extrabold mb-4">Tải Cài Đặt & Kích Hoạt Ngay</h2>
+        <div class="inline-block bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-bold px-4 py-1 rounded-full mb-3">
+            DÙNG THỬ THẢ GA — HÀI LÒNG MỚI MUA
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold mb-4">Cài Đặt Ngay — Trải Nghiệm 20 Ngày Miễn Phí</h2>
         <p class="text-slate-400 mb-8 text-sm sm:text-base max-w-xl mx-auto">
-            Tải file APK về cài đặt trên điện thoại Android. Mở app để dùng thử đầy đủ tính năng trong 7 ngày.
+            Bạn có <strong>20 ngày dùng thử không giới hạn tính năng</strong>. Sau thời gian dùng thử, nếu thấy app đáp ứng tốt nhu cầu, bạn chỉ cần chuyển khoản kích hoạt Key trọn đời một lần duy nhất.
         </p>
 
-        <div class="mb-10">
-            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="inline-flex items-center gap-3 bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white font-black py-4 px-8 rounded-2xl shadow-xl shadow-emerald-500/20 transition-all text-base sm:text-lg">
-                <i class="fa-solid fa-download"></i> TẢI FILE CÀI ĐẶT (.APK)
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-10">
+            <a href="#chplay-guide" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white hover:bg-slate-100 active:scale-95 text-slate-900 font-black py-4 px-7 rounded-2xl shadow-xl transition-all text-sm sm:text-base">
+                <i class="fa-brands fa-google-play text-emerald-500 text-xl"></i> CÀI TRÊN GOOGLE PLAY (20 NGÀY)
+            </a>
+            <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/v1.0.0/app-release.apk" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white font-black py-4 px-7 rounded-2xl shadow-xl shadow-emerald-500/20 transition-all text-sm sm:text-base">
+                <i class="fa-solid fa-download text-xl"></i> TẢI FILE CÀI (.APK)
             </a>
         </div>
 

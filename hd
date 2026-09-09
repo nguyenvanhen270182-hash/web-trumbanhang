@@ -1,5 +1,9 @@
 
 cd D:\web-trumbanhang
+git add .
+git commit -m "noi dung sua thay doi 2 video quay man hinh"
+git push
+
 lenh vào thu muc
 
 git add .
@@ -10,7 +14,7 @@ git push -u origin main
 sau khi chay xong chay 3 nay
 
 git add .
-git commit -m "noi dung sua thay doi vers apk "
+git commit -m "noi dung sua thay doi 2 video quay man hinh"
 git push
 
 

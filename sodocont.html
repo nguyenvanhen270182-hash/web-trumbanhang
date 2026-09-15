@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tải ứng dụng Sơ Đồ Cont</title>
+    <title>Tải Ứng Dụng</title>
     <style>
         * {
             box-sizing: border-box;
@@ -25,54 +25,108 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             max-width: 420px;
             width: 100%;
-            padding: 32px 24px;
+            padding: 24px;
             text-align: center;
         }
+
+        /* Thanh chuyển tab */
+        .tab-bar {
+            display: flex;
+            background: #eef2f6;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 24px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab-btn.active-blue {
+            background: #ffffff;
+            color: #1976d2;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .tab-btn.active-green {
+            background: #ffffff;
+            color: #2e7d32;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
         .app-icon {
-            width: 84px;
-            height: 84px;
-            background: #1976d2;
+            width: 80px;
+            height: 80px;
             color: #ffffff;
             border-radius: 20px;
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            font-size: 36px;
+            font-size: 32px;
             font-weight: bold;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+        }
+        .icon-blue {
+            background: #1976d2;
             box-shadow: 0 6px 16px rgba(25, 118, 210, 0.3);
         }
+        .icon-green {
+            background: #2e7d32;
+            box-shadow: 0 6px 16px rgba(46, 125, 50, 0.3);
+        }
+
         h1 {
-            font-size: 22px;
+            font-size: 20px;
             color: #1a1a1a;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         p.subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: #666;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
+
         .btn-download {
             display: block;
-            background: #1976d2;
             color: #ffffff;
             text-decoration: none;
             font-weight: 600;
-            font-size: 16px;
-            padding: 14px 20px;
+            font-size: 15px;
+            padding: 12px 20px;
             border-radius: 10px;
             transition: background 0.2s ease;
+        }
+        .btn-blue {
+            background: #1976d2;
             box-shadow: 0 4px 12px rgba(25, 118, 210, 0.25);
         }
-        .btn-download:hover {
-            background: #1565c0;
+        .btn-blue:hover { background: #1565c0; }
+
+        .btn-green {
+            background: #2e7d32;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25);
         }
+        .btn-green:hover { background: #256628; }
+
         .guide-box {
-            margin-top: 28px;
+            margin-top: 24px;
             text-align: left;
             background: #fff8e1;
             border-left: 4px solid #ffb300;
-            padding: 14px;
+            padding: 12px 14px;
             border-radius: 0 8px 8px 0;
             font-size: 13px;
             line-height: 1.5;
@@ -80,38 +134,76 @@
         }
         .guide-box strong {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             color: #e65100;
         }
         ol {
             padding-left: 18px;
         }
         li {
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <div class="app-icon">SD</div>
-    <h1>Sơ Đồ Cont</h1>
-    <p class="subtitle">Phiên bản Release 1.0 (Dành cho Android)</p>
+    <!-- Nút chọn App -->
+    <div class="tab-bar">
+        <button id="btnTab1" class="tab-btn active-blue" onclick="switchTab('sodocont')">Sơ Đồ Cont</button>
+        <button id="btnTab2" class="tab-btn" onclick="switchTab('quanlykho')">Quản Lý Kho</button>
+    </div>
 
-    <!-- Thay link tải GitHub Release của bạn vào thuộc tính href bên dưới -->
-    <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/c1.0.0/sodocont.apk" class="btn-download">
-        Tải xuống APK
-    </a>
+    <!-- Khối Tải Sơ Đồ Cont -->
+    <div id="tab-sodocont" class="tab-content active">
+        <div class="app-icon icon-blue">SD</div>
+        <h1>Sơ Đồ Cont</h1>
+        <p class="subtitle">Phiên bản Release 1.0 (Android)</p>
+        <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/c1.0.0/sodocont.apk" class="btn-download btn-blue">
+            Tải xuống APK
+        </a>
+    </div>
+
+    <!-- Khối Tải Quản Lý Kho -->
+    <div id="tab-quanlykho" class="tab-content">
+        <div class="app-icon icon-green">QLK</div>
+        <h1>Quản Lý Kho</h1>
+        <p class="subtitle">Phiên bản Release 1.0 (Android)</p>
+        <a href="https://github.com/nguyenvanhen270182-hash/app-trumbanhang/releases/download/c1.0.0/quanlykho1.0.apk" class="btn-download btn-green">
+            Tải xuống APK
+        </a>
+    </div>
 
     <div class="guide-box">
-        <strong>Lưu ý khi cài đặt trên Android:</strong>
+        <strong>Lưu ý khi cài đặt:</strong>
         <ol>
-            <li>Bấm <b>Tải xuống APK</b> rồi chọn <i>Vẫn tải xuống</i> nếu trình duyệt hỏi.</li>
-            <li>Khi mở file, nếu máy báo <i>Bị chặn cài đặt</i>: Vào <b>Cài đặt</b> > <b>Bảo mật & quyền riêng tư</b> > Tắt <b>Trình chặn tự động (Auto Blocker)</b>.</li>
-            <li>Nếu có thông báo bảo vệ, bấm <b>Chi tiết</b> > chọn <b>Vẫn cài đặt</b>.</li>
+            <li>Bấm <b>Tải xuống APK</b> rồi chọn <i>Vẫn tải xuống</i>.</li>
+            <li>Nếu báo <i>Bị chặn</i>: Vào <b>Cài đặt</b> > <b>Bảo mật & quyền riêng tư</b> > Tắt <b>Trình chặn tự động (Auto Blocker)</b>.</li>
+            <li>Bấm <b>Chi tiết</b> > chọn <b>Vẫn cài đặt</b> khi có thông báo Play Protect.</li>
         </ol>
     </div>
 </div>
+
+<script>
+    function switchTab(tabName) {
+        const tabSD = document.getElementById('tab-sodocont');
+        const tabQLK = document.getElementById('tab-quanlykho');
+        const btnTab1 = document.getElementById('btnTab1');
+        const btnTab2 = document.getElementById('btnTab2');
+
+        if (tabName === 'sodocont') {
+            tabSD.classList.add('active');
+            tabQLK.classList.remove('active');
+            btnTab1.className = 'tab-btn active-blue';
+            btnTab2.className = 'tab-btn';
+        } else {
+            tabQLK.classList.add('active');
+            tabSD.classList.remove('active');
+            btnTab2.className = 'tab-btn active-green';
+            btnTab1.className = 'tab-btn';
+        }
+    }
+</script>
 
 </body>
 </html>

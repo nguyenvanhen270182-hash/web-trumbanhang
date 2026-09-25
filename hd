@@ -1,7 +1,7 @@
 
 cd D:\web-trumbanhang
 git add .
-git commit -m "noi dung sua thay doi them dongftich hop QL Cham cong them sdc"
+git commit -m "noi dung sua thay doi version app"
 git push
 
 lenh vào thu muc

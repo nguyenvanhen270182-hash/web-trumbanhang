@@ -1059,7 +1059,7 @@
         document.getElementById('lightboxModal').classList.remove('flex');
     }
 
-    function selectPlan(amount, type) {
+  function selectPlan(amount, type) {
         const btnKey = document.getElementById('btnPlanKey');
         const btnCombo = document.getElementById('btnPlanCombo');
         const qrImg = document.getElementById('mainQrImage');
@@ -1085,6 +1085,7 @@
 
         qrImg.src = `https://img.vietqr.io/image/${BANK_CONFIG.bankId}-${BANK_CONFIG.accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(memo)}&accountName=${encodeURIComponent(BANK_CONFIG.accountName)}`;
     }
+
 
     function toggleMobileNav() {
         const menu = document.getElementById('mobileDropdown');

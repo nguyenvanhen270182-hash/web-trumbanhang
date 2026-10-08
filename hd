@@ -1,7 +1,7 @@
 
 cd D:\web-trumbanhang
 git add .
-git commit -m "update  gioi thieu phien ban moi"
+git commit -m "update  gioi thieu phien ban moi 2.9.2 bai ban"
 git push
 
 lenh vào thu muc
